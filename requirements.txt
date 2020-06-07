@@ -1,0 +1,7 @@
+decorator==4.4.2
+jsonpatch==1.25
+jsonpath-rw==1.4.0
+jsonpointer==2.0
+ply==3.11
+redfish==2.1.5
+six==1.15.0
