@@ -23,7 +23,7 @@ class RedfishClient(Client):
 
     def get(self, path):
         """Get the response for the given api endpoint path."""
-        return s
+        return self._client.get(path)
 
 
 

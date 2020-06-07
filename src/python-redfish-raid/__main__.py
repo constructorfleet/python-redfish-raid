@@ -1,5 +1,9 @@
 import argparse
 
+from data.client.RedfishClient import RedfishClient
+from domain.usecases.ConnectUseCase import ConnectUseCase
+from domain.usecases.RecurseApiUseCase import RecurseApiUseCase
+
 
 def _redfish_args(parser):
     """Redfish client arguments."""
@@ -87,7 +91,16 @@ def main():
     _nagios_command(subparsers.add_parser('nagios', help="Nagios monitoring information."))
 
     args = parser.parse_args()
+    client = RedfishClient()
+    ConnectUseCase(client)(args.login_host,
+                           args.login_account,
+                           args.login_passsword,
+                           prefix=args.refish_prefix)
+    data = RecurseApiUseCase(client)(args.refish_prefix)
+    print(str(data))
+
 
 
 if __name__ == '__main__':
     """Main entrypoint handler."""
+    main()

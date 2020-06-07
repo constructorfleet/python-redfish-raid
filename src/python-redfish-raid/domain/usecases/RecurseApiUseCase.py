@@ -20,11 +20,10 @@ def _clear_key(json, key, default=None):
 class RecurseApiUseCase(UseCase):
     """Recurse through api use case."""
 
-    def __init__(self, client, get_model_class):
+    def __init__(self, client):
         """Instantiate a new instance of this use case."""
         super().__init__()
         self.client = client
-        self.get_model_class = get_model_class
 
     def __call__(self, endpoint):
         """Invoke the specified endpoint and recurse child properties."""

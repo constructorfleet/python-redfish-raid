@@ -12,3 +12,7 @@ class ServiceData(dict):
         self.linked_entity_map = links or {}
         for key, value in attrs.items():
             self[key] = value
+
+    def __str__(self) -> str:
+        return "(%s:%s) -> %s" % (self.data_type, self.id, super().__str__())
+
