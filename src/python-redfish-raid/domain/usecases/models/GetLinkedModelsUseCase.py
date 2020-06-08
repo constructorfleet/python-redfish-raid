@@ -11,18 +11,24 @@ class GetLinkedModelsUseCase(UseCase):
         self._invoke_api = invoke_api
 
     def __call__(self, model):
-        if isinstance(model, str):
-            cached_model = self._get_cached_model(model)
-            if cached_model is None:
-                cached_model = self._invoke_api(model, recurse=False)
-            return cached_model
         links = {}
-        for key, value in model.items():
-            if key == ATTR_ID:
-                return self._get_cached_model(value)
-            if isinstance(value, list):
-                links[key] = [self(item) for item in value]
-            elif isinstance(value, dict):
-                links[key] = self(value)
-
+        for key, value in model.links.items():
+            if isinstance(value, dict):
+                links[key] = self._process_link_dict(value)
+            elif isinstance(value, list):
+                links[key] = self._process_link_list(value)
         return links
+
+    def _process_link_list(self, link_list):
+        return [self._process_link_dict(link) for link in link_list]
+
+    def _process_link_dict(self, link_dict):
+        if not isinstance(link_dict, dict):
+            return link_dict  # Sanity check
+        object_id = link_dict.get(ATTR_ID)
+        if not object_id:
+            return link_dict
+        cached_model = self._get_cached_model(object_id)
+        if not cached_model:
+            cached_model = self._invoke_api(object_id, recurse=False)
+        return cached_model
