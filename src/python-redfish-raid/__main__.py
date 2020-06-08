@@ -7,7 +7,7 @@ from framework.client import get_client
 
 from domain.usecases.api.ConnectUseCase import ConnectUseCase
 from domain.usecases.api.DisconnectUseCase import DisconnectUseCase
-from domain.usecases.api.RecurseApiUseCase import RecurseApiUseCase
+from domain.usecases.api.InvokeApiUseCase import InvokeApiUseCase
 from domain.usecases.models.CacheModelUseCase import CacheModelUseCase
 from domain.usecases.models.GetCachedModelUseCase import GetCachedModelUseCase
 from domain.usecases.models.GetModelCache import GetModelCacheUseCase
@@ -39,14 +39,14 @@ def get_model_cached_usecase():
     return GetCachedModelUseCase(get_model_cache())
 
 
-def get_recurse_api_usecase(client):
-    """Get recurse api usecase."""
-    return RecurseApiUseCase(client, get_model_cached_usecase(), get_cache_model_usecase())
+def get_invoke_api_usecase(client):
+    """Get invoke api usecase."""
+    return InvokeApiUseCase(client, get_model_cached_usecase(), get_cache_model_usecase())
 
 
-def get_linked_models_usecase():
+def get_linked_models_usecase(invoke_api):
     """Get use case for retrieving linked models."""
-    return GetLinkedModelsUseCase(get_model_cached_usecase())
+    return GetLinkedModelsUseCase(get_model_cached_usecase(), invoke_api)
 
 
 def _api_args(parser):
@@ -145,21 +145,17 @@ def main():
                         prefix=args.api_prefix)
     connect = get_connect_usecase(client)
     disconnect = get_disconnect_usecase(client)
-    recurse = get_recurse_api_usecase(client)
-    get_linked_models = get_linked_models_usecase()
+    invoke_api = get_invoke_api_usecase(client)
+    get_linked_models = get_linked_models_usecase(invoke_api)
 
     connect()
     try:
-        data = recurse(args.api_prefix)
+        data = invoke_api(args.api_prefix, recurse=True)
+        data.set_linked_models(get_linked_models(data))
         results = json.dumps(data, indent=2, sort_keys=True)
         with open('data.json', 'w') as writer:
             writer.write(results)
-        for item in data['Chassis']['Members']:
-            if 'Enclosure' not in item.id:
-                continue
-            print("%s -> %s" % (str(item.id), str(item.links)))
-            print(str(get_linked_models(item)))
-        # print(results)
+        print(results)
     finally:
         disconnect()
 

@@ -33,8 +33,8 @@ def _is_blacklisted(endpoint):
     return False
 
 
-class RecurseApiUseCase(UseCase):
-    """Recurse through api use case."""
+class InvokeApiUseCase(UseCase):
+    """Invoke api use case."""
 
     def __init__(self, client, get_cached_model, cache_model):
         """Instantiate a new instance of this use case."""
@@ -43,8 +43,8 @@ class RecurseApiUseCase(UseCase):
         self._get_cached_model = get_cached_model
         self._cache_model = cache_model
 
-    def __call__(self, endpoint):
-        """Invoke the specified endpoint and recurse child properties."""
+    def __call__(self, endpoint, recurse=True):
+        """Invoke the specified endpoint and recurse child properties if specified."""
         try:
             cached_model = self._get_cached_model(endpoint)
             if cached_model:
@@ -58,8 +58,9 @@ class RecurseApiUseCase(UseCase):
                 data_type = _clear_key(response, ATTR_DATA_TYPE)
 
                 links = _clear_key(response, ATTR_LINKS, {})
-
-                populated_json = self._recurse_json(response)
+                populated_json = response
+                if recurse:
+                    populated_json = self._recurse_json(response)
 
                 cached_model = ServiceData(id, context, data_type, populated_json, links)
             else:
@@ -72,6 +73,8 @@ class RecurseApiUseCase(UseCase):
             raise err
 
     def _recurse_json(self, json):
+        if isinstance(json, list):
+            return [self(item) for item in json]
         if not isinstance(json, dict):
             return json
 
