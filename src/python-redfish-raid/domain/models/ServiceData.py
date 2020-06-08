@@ -1,5 +1,6 @@
 import json
 
+DATA_TYPE_IGNORED = "Ignored Type"
 
 class ServiceData(dict):
     """Service data class."""
@@ -18,7 +19,16 @@ class ServiceData(dict):
 
         self['@id'] = self.id
         self['@data_type'] = self.data_type
-        self['@context'] = self.context
+        if self.context:
+            self['@context'] = self.context
 
     def __str__(self) -> str:
         return json.dumps(self, indent=2, sort_keys=True)
+
+
+class IgnoredServiceData(ServiceData):
+    """Ignored service data container."""
+
+    def __init__(self, id):
+        """Create an ignored service data model."""
+        super().__init__(id, None, DATA_TYPE_IGNORED, {})

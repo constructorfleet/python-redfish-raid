@@ -1,16 +1,9 @@
 from copy import deepcopy
-import json
-import re
 
-from domain.models.ServiceData import ServiceData
+from const import ATTR_ID, ATTR_CONTEXT, ATTR_DATA_TYPE, ATTR_LINKS
+from domain.models.ServiceData import ServiceData, IgnoredServiceData
 from framework.usecases.UseCase import UseCase
 
-ATTR_CONTEXT = '@odata.context'
-ATTR_DATA_TYPE = '@odata.type'
-ATTR_ID = '@odata.id'
-ATTR_LINKS = 'Links'
-
-_CACHE = {}
 _BLACKLIST_KEYWORDS = [
     'Fan',
     'DIMM',
@@ -23,12 +16,6 @@ _BLACKLIST_KEYWORDS = [
     'Log',
     'Network'
 ]
-_WHITELIST_KEYWORDS = [
-    'Storage',
-    'Disk',
-    'Drive',
-    'Enclosure'
-]
 
 
 def _clear_key(json_dict, key, default=None):
@@ -38,14 +25,9 @@ def _clear_key(json_dict, key, default=None):
     del json_dict[key]
     return value
 
+
 def _is_blacklisted(endpoint):
     for keyword in _BLACKLIST_KEYWORDS:
-        if keyword.lower() in endpoint.lower():
-            return True
-    return False
-
-def _is_whitelisted(endpoint):
-    for keyword in _WHITELIST_KEYWORDS:
         if keyword.lower() in endpoint.lower():
             return True
     return False
@@ -54,33 +36,36 @@ def _is_whitelisted(endpoint):
 class RecurseApiUseCase(UseCase):
     """Recurse through api use case."""
 
-    def __init__(self, client):
+    def __init__(self, client, get_cached_model, cache_model):
         """Instantiate a new instance of this use case."""
         super().__init__()
         self._client = client
+        self._get_cached_model = get_cached_model
+        self._cache_model = cache_model
 
     def __call__(self, endpoint):
         """Invoke the specified endpoint and recurse child properties."""
         try:
-            if endpoint in _CACHE:
-                print('Retreiving %s from cache' % endpoint)
-                return _CACHE[endpoint]
-            if _is_blacklisted(endpoint):
-                return {}
+            cached_model = self._get_cached_model(endpoint)
+            if cached_model:
+                print('Retrieving %s from cache' % endpoint)
+                return cached_model
+            if not _is_blacklisted(endpoint):
+                print('Retrieving %s' % endpoint)
+                response = self._client.get(endpoint)
+                id = _clear_key(response, ATTR_ID, endpoint)
+                context = _clear_key(response, ATTR_CONTEXT, endpoint)
+                data_type = _clear_key(response, ATTR_DATA_TYPE)
 
-            print('Retreiving %s' % endpoint)
-            response = self._client.get(endpoint)
-            id = _clear_key(response, ATTR_ID, endpoint)
-            context = _clear_key(response, ATTR_CONTEXT, endpoint)
-            data_type = _clear_key(response, ATTR_DATA_TYPE)
+                links = _clear_key(response, ATTR_LINKS, {})
 
-            links = _clear_key(response, ATTR_LINKS, {})
+                populated_json = self._recurse_json(response)
 
-            populated_json = self._recurse_json(response)
-
-            service_data = ServiceData(id, context, data_type, populated_json, links)
-            _CACHE[endpoint] = service_data
-            return service_data
+                cached_model = ServiceData(id, context, data_type, populated_json, links)
+            else:
+                cached_model = IgnoredServiceData(endpoint)
+            self._cache_model(cached_model)
+            return cached_model
 
         except Exception as err:
             self._logger.error(str(err))

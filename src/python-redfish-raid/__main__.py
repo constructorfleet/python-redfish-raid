@@ -1,12 +1,11 @@
-import argparse
 import json
 
-from data.client.RedfishClient import RedfishClient
+import argparse
+
 from domain.usecases.api.ConnectUseCase import ConnectUseCase
 from domain.usecases.api.RecurseApiUseCase import RecurseApiUseCase
-
-API_REDFISH = "Redfish"
-DEFAULT_API = API_REDFISH
+from framework.client import get_client
+from framework.usecases import get_connect_usecase, get_recurse_api_usecase, get_disconnect_usecase
 
 
 def _api_args(parser):
@@ -19,7 +18,7 @@ def _api_args(parser):
                         help="Redfish account for authentication.")
     parser.add_argument("--password", dest="login_password", required=True, type=str,
                         help="Redfish account password for authentication.")
-    parser.add_argument("--prefix", dest="refish_prefix", type=str,
+    parser.add_argument("--prefix", dest="redfish_prefix", type=str,
                         default="/redfish/v1", help="Redfix client prefix.")
 
 
@@ -85,16 +84,6 @@ def _nagios_command(parser):
                         default=False, action='store_true',
                         help='Ignore the write cache settings.')
 
-def _get_client(api_type, host, username, password, **kwargs):
-    if api_type == API_REDFISH:
-        return RedfishClient(host, username, password, prefix=kwargs.get('prefix'))
-    raise Exception('Invalid api type %s' % api_type)
-
-def _get_connect_usecase(client):
-    return ConnectUseCase(client)
-
-def _get_recurse_api_usecase(client):
-    return RecurseApiUseCase(client)
 
 def main():
     """Main entry point to Redfish RAID."""
@@ -108,13 +97,14 @@ def main():
 
     args = parser.parse_args()
     print(str(args))
-    client = _get_client(args.api_type,
-                         args.login_host,
-                         args.login_account,
-                         args.login_password,
-                         prefix=args.refish_prefix)
-    connect = _get_connect_usecase(client)
-    recurse = _get_recurse_api_usecase(client)
+    client = get_client(args.api_type,
+                        args.login_host,
+                        args.login_account,
+                        args.login_password,
+                        prefix=args.redfish_prefix)
+    connect = get_connect_usecase(client)
+    disconnect = get_disconnect_usecase(client)
+    recurse = get_recurse_api_usecase(client)
 
     connect()
     try:
@@ -124,8 +114,7 @@ def main():
             writer.write(results)
         print(results)
     finally:
-        client.disconnect()
-
+        disconnect()
 
 
 if __name__ == '__main__':
