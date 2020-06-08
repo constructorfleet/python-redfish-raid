@@ -74,7 +74,7 @@ class InvokeApiUseCase(UseCase):
 
     def _recurse_json(self, json):
         if isinstance(json, list):
-            return [self(item) for item in json]
+            return [self._recurse_json(item) for item in json]
         if not isinstance(json, dict):
             return json
 
