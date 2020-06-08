@@ -1,5 +1,5 @@
 import json
-from copy import deepcopy
+
 
 class ServiceData(dict):
     """Service data class."""
