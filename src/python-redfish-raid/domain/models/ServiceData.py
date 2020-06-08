@@ -1,3 +1,6 @@
+import json
+from copy import deepcopy
+
 class ServiceData(dict):
     """Service data class."""
 
@@ -13,5 +16,9 @@ class ServiceData(dict):
         for key, value in attrs.items():
             self[key] = value
 
+        self['@id'] = self.id
+        self['@data_type'] = self.data_type
+        self['@context'] = self.context
+
     def __str__(self) -> str:
-        return "(%s:%s) -> %s" % (self.data_type, self.id, super().__str__())
+        return json.dumps(self, indent=2, sort_keys=True)

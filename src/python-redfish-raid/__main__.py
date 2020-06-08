@@ -119,7 +119,10 @@ def main():
     connect()
     try:
         data = recurse(args.refish_prefix)
-        print(json.dumps(data, indent=2, sort_keys=True))
+        results = json.dumps(data, indent=2, sort_keys=True)
+        with open('data.json', 'w') as writer:
+            writer.write(results)
+        print(results)
     finally:
         client.disconnect()
 
