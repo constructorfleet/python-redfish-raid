@@ -2,7 +2,8 @@ import json
 
 import argparse
 
-from const import DEFAULT_API
+from const import DEFAULT_API, COMMAND_SHOW_ALL, COMMAND_NAGIOS, COMMAND_SHOW_PR, COMMAND_SHOW_CC, \
+    COMMAND_SHOW_BBU, COMMAND_SHOW_ENC, COMMAND_SHOW_DISKS, COMMAND_SHOW_LOGICAL
 from domain.usecases.configs.GetSystemConfigUseCase import GetSystemConfigUseCase
 from domain.usecases.configs.LoadConfigurationUseCase import LoadConfigurationUseCase
 from framework.client import get_client
@@ -107,6 +108,27 @@ def _command_args(parser):
     #                     help='Use with --nagios: ignore the write cache setting.')
 
 
+def _get_command(args):
+    """Get the command from the args."""
+    # TODO : More dynamic
+    # if args.nagios:
+    #     return COMMAND_NAGIOS
+    if args.show_all:
+        return COMMAND_SHOW_ALL
+    if args.show_pr:
+        return COMMAND_SHOW_PR
+    if args.show_cc:
+        return COMMAND_SHOW_CC
+    if args.show_bbu:
+        return COMMAND_SHOW_BBU
+    if args.show_enc:
+        return COMMAND_SHOW_ENC
+    if args.show_disks:
+        return COMMAND_SHOW_DISKS
+    if args.show_logical:
+        return COMMAND_SHOW_LOGICAL
+
+
 def main():
     """Main entry point to Redfish RAID."""
 
@@ -130,7 +152,7 @@ def main():
 
     connect()
     try:
-        prefix = system_config.get_prefix('command') or args.api_prefix
+        prefix = system_config.get_prefix(_get_command(args)) or args.api_prefix
         data = invoke_api(prefix, recurse=True)
         data.set_linked_models(get_linked_models(data))
         results = json.dumps(data, indent=2, sort_keys=True)
