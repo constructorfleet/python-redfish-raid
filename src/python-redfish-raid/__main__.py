@@ -12,6 +12,7 @@ from domain.usecases.models.CacheModelUseCase import CacheModelUseCase
 from domain.usecases.models.GetCachedModelUseCase import GetCachedModelUseCase
 from domain.usecases.models.GetLinkedModelsUseCase import GetLinkedModelsUseCase
 from domain.usecases.models.GetModelCache import GetModelCacheUseCase
+from domain.models.ServiceData import ReferencedServiceData
 from framework.client import get_client
 
 
@@ -153,6 +154,7 @@ def main():
     disconnect = get_disconnect_usecase(client)
     invoke_api = get_invoke_api_usecase(client)
     get_linked_models = get_linked_models_usecase(invoke_api)
+    get_cached_model = get_model_cached_usecase()
     command = _get_command(args)
 
     connect()
@@ -161,10 +163,22 @@ def main():
         command_property = system_config.get_property(command)
         recurse = system_config.get_recurse(command)
         data = invoke_api(prefix, recurse=recurse)
-        if recurse:
-            data.set_linked_models(get_linked_models(data))
+        # if recurse:
+        #     data.set_linked_models(get_linked_models(data))
         if command_property:
-            data = data.get(KEY_LINKS, {}).get(command_property)
+            data = data.get(ATTR_LINKS, {}).get(command_property)
+        if isinstance(data, list):
+            data = [get_cached_model(item.id)  if isinstance(item, ReferencedServiceData) else item for item in data]
+        if isinstance(data, dict):
+            new_data = {}
+            for key, value in data.items():
+                if isinstance(value, list):
+                    new_data[key] = [get_cached_model(item.id) if isinstance(item, ReferencedServiceData) else item for item in value]
+                elif isinstance(value, ReferencedServiceData):
+                    new_data[key] = get_cached_model(item.id)
+                else:
+                    new_data[key] = value
+            data = new_data
         results = json.dumps(data, indent=2, sort_keys=True)
         # TODO: Report use case
         with open('data.json', 'w') as writer:
