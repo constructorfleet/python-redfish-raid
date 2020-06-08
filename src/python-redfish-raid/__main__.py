@@ -11,6 +11,7 @@ from domain.usecases.api.RecurseApiUseCase import RecurseApiUseCase
 from domain.usecases.models.CacheModelUseCase import CacheModelUseCase
 from domain.usecases.models.GetCachedModelUseCase import GetCachedModelUseCase
 from domain.usecases.models.GetModelCache import GetModelCacheUseCase
+from domain.usecases.models.GetLinkedModelsUseCase import GetLinkedModelsUseCase
 
 
 def get_connect_usecase(client):
@@ -41,6 +42,11 @@ def get_model_cached_usecase():
 def get_recurse_api_usecase(client):
     """Get recurse api usecase."""
     return RecurseApiUseCase(client, get_model_cached_usecase(), get_cache_model_usecase())
+
+
+def get_linked_models_usecase():
+    """Get use case for retrieving linked models."""
+    return GetLinkedModelsUseCase(get_model_cached_usecase())
 
 
 def _api_args(parser):
@@ -140,6 +146,7 @@ def main():
     connect = get_connect_usecase(client)
     disconnect = get_disconnect_usecase(client)
     recurse = get_recurse_api_usecase(client)
+    get_linked_models = get_linked_models_usecase()
 
     connect()
     try:
@@ -147,7 +154,12 @@ def main():
         results = json.dumps(data, indent=2, sort_keys=True)
         with open('data.json', 'w') as writer:
             writer.write(results)
-        print(results)
+        for item in data['Chassis']['Members']:
+            if 'Enclosure' not in item.id:
+                continue
+            print("%s -> %s" % (str(item.id), str(item.links)))
+            print(str(get_linked_models(item)))
+        # print(results)
     finally:
         disconnect()
 

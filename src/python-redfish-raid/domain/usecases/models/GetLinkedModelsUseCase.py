@@ -9,9 +9,11 @@ class GetLinkedModelsUseCase(UseCase):
         super().__init__()
         self._get_cached_model = get_cached_model
 
-    def __call__(self, service_data_model_links):
+    def __call__(self, model):
+        if isinstance(model, str):
+            return self._get_cached_model(model)
         links = {}
-        for key, value in service_data_model_links:
+        for key, value in model.items():
             if key == ATTR_ID:
                 return self._get_cached_model(value)
             if isinstance(value, list):
@@ -20,4 +22,3 @@ class GetLinkedModelsUseCase(UseCase):
                 links[key] = self(value)
 
         return links
-
