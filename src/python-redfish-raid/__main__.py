@@ -22,9 +22,9 @@ def get_load_configuration_usecase():
     return LoadConfigurationUseCase()
 
 
-def get_system_configuration_usecase(load_config):
+def get_system_configuration_usecase(load_config, system):
     """"Get system configuration use case."""
-    return GetSystemConfigUseCase(load_config())
+    return GetSystemConfigUseCase(load_config(system))
 
 
 def get_connect_usecase(client):
@@ -72,6 +72,8 @@ def _api_args(parser):
                         help="Redfish account for authentication.")
     parser.add_argument("--password", dest="login_password", required=True, type=str,
                         help="Redfish account password for authentication.")
+    parser.add_argument("--system", dest="system", required=True, type=str,
+                        help="System manufacturer.")
     parser.add_argument("--prefix", dest="api_prefix", type=str,
                         default="/redfish/v1", help="Api client prefix.")
 
@@ -79,18 +81,18 @@ def _api_args(parser):
 def _command_args(parser):
     """Parse and handle command arguments."""
 
-    parser.add_argument('--showallinfo', default=True, dest="show_all",
+    parser.add_argument('--showallinfo', default=True, action="store_true", dest="show_all",
                         help='Display a dump of the interesting adapter info.')
-    parser.add_argument('--showprinfo', default=False, dest="show_pr",
+    parser.add_argument('--showprinfo', default=False, action="store_true", dest="show_pr",
                         help='Display a dump of the Patrol Read statuses of all adapters.')
-    parser.add_argument('--showccinfo', default=False, dest="show_cc",
+    parser.add_argument('--showccinfo', default=False, action="store_true", dest="show_cc",
                         help='Display a dump of the Consistency Check statuses of all adapters.')
-    parser.add_argument('--showbbuinfo', default=False, dest="show_bbu",
+    parser.add_argument('--showbbuinfo', default=False, action="store_true", dest="show_bbu",
                         help='Display a dump of the Battery Backup Unit statuses of all adapters.')
-    parser.add_argument('--showencinfo', default=False, dest="show_enc",
+    parser.add_argument('--showencinfo', default=False, action="store_true", dest="show_enc",
                         help='Display a dump of the enclosure information of all adapters.')
 
-    parser.add_argument('--showdisks', default=False, dest="show_disks",
+    parser.add_argument('--showdisks', default=False, action="store_true", dest="show_disks",
                         help='Dump all disks with their error counters and firmware states.')
     parser.add_argument('--showlogical', default=False, action='store_true', dest="show_logical",
                         help='Display a dump of all logical disks and their members.')
@@ -139,7 +141,7 @@ def main():
 
     args = parser.parse_args()
     print(str(args))
-    system_config = get_system_configuration_usecase(get_load_configuration_usecase())()
+    system_config = get_system_configuration_usecase(get_load_configuration_usecase(), args.system)()
     client = get_client(args.api_type,
                         args.login_host,
                         args.login_account,
