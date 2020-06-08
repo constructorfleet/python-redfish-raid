@@ -2,6 +2,7 @@ import json
 
 import argparse
 
+from const import DEFAULT_API
 from framework.client import get_client
 
 from domain.usecases.api.ConnectUseCase import ConnectUseCase
