@@ -1,16 +1,19 @@
 show_all:
-  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+  prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0
 show_pr:
-  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+  prefix: TODO
   property: PatrolReadState
 show_cc:
-  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+  prefix: TODO
   property: TODO
 show_bbu:
   prefix: TODO
 show_enc:
-  prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
+  prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0/StorageEnclosures
+  recurse: True
 show_disks:
-  prefix: /redfish/v1/
+  prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0/DiskDrives
+  recurse: True
 show_logical:
-  prefix: TODO
+  prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0/LogicalDrives
+  recurse: True

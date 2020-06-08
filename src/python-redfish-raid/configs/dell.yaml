@@ -1,5 +1,5 @@
 show_all:
-  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+  prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
 show_pr:
   prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
   property: PatrolReadState
