@@ -45,6 +45,8 @@ class InvokeApiUseCase(UseCase):
 
     def __call__(self, endpoint, recurse=True):
         """Invoke the specified endpoint and recurse child properties if specified."""
+        if not endpoint.startswith('/'):
+            return endpoint  # Sanity check
         try:
             cached_model = self._get_cached_model(endpoint)
             if cached_model:
