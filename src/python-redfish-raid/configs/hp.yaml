@@ -1,0 +1,16 @@
+show_all:
+  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+show_pr:
+  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+  property: PatrolReadState
+show_cc:
+  prefix: /redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1
+  property: TODO
+show_bbu:
+  prefix: TODO
+show_enc:
+  prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
+show_disks:
+  prefix: /redfish/v1/
+show_logical:
+  prefix: TODO
