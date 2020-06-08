@@ -18,8 +18,8 @@ def _api_args(parser):
                         help="Redfish account for authentication.")
     parser.add_argument("--password", dest="login_password", required=True, type=str,
                         help="Redfish account password for authentication.")
-    parser.add_argument("--prefix", dest="redfish_prefix", type=str,
-                        default="/redfish/v1", help="Redfix client prefix.")
+    parser.add_argument("--prefix", dest="api_prefix", type=str,
+                        default="/redfish/v1", help="Api client prefix.")
 
 
 def _legacy_args(parser):
@@ -101,14 +101,14 @@ def main():
                         args.login_host,
                         args.login_account,
                         args.login_password,
-                        prefix=args.redfish_prefix)
+                        prefix=args.api_prefix)
     connect = get_connect_usecase(client)
     disconnect = get_disconnect_usecase(client)
     recurse = get_recurse_api_usecase(client)
 
     connect()
     try:
-        data = recurse(args.refish_prefix)
+        data = recurse(args.api_prefix)
         results = json.dumps(data, indent=2, sort_keys=True)
         with open('data.json', 'w') as writer:
             writer.write(results)
