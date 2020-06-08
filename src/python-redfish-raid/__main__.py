@@ -2,8 +2,7 @@ import json
 
 import argparse
 
-from const import DEFAULT_API, COMMAND_SHOW_ALL, COMMAND_SHOW_PR, COMMAND_SHOW_CC, \
-    COMMAND_SHOW_BBU, COMMAND_SHOW_ENC, COMMAND_SHOW_DISKS, COMMAND_SHOW_LOGICAL
+from const import *
 from domain.usecases.api.ConnectUseCase import ConnectUseCase
 from domain.usecases.api.DisconnectUseCase import DisconnectUseCase
 from domain.usecases.api.InvokeApiUseCase import InvokeApiUseCase
@@ -23,7 +22,7 @@ def get_load_configuration_usecase():
 
 def get_system_configuration_usecase(load_config):
     """"Get system configuration use case."""
-    return GetSystemConfigUseCase(load_config())
+    return GetSystemConfigUseCase(load_config)
 
 
 def get_connect_usecase(client):
@@ -80,7 +79,7 @@ def _api_args(parser):
 def _command_args(parser):
     """Parse and handle command arguments."""
 
-    parser.add_argument('--showallinfo', default=True, action="store_true", dest="show_all",
+    parser.add_argument('--showallinfo', default=False, action="store_true", dest="show_all",
                         help='Display a dump of the interesting adapter info.')
     parser.add_argument('--showprinfo', default=False, action="store_true", dest="show_pr",
                         help='Display a dump of the Patrol Read statuses of all adapters.')
@@ -129,6 +128,8 @@ def _get_command(args):
     if args.show_logical:
         return COMMAND_SHOW_LOGICAL
 
+    return COMMAND_SHOW_ALL
+
 
 def main():
     """Main entry point to Redfish RAID."""
@@ -140,7 +141,9 @@ def main():
 
     args = parser.parse_args()
     print(str(args))
-    system_config = get_system_configuration_usecase(get_load_configuration_usecase())(args.system)
+    system_config = get_system_configuration_usecase(
+        get_load_configuration_usecase()
+        )(args.system)
     client = get_client(args.api_type,
                         args.login_host,
                         args.login_account,
@@ -150,12 +153,18 @@ def main():
     disconnect = get_disconnect_usecase(client)
     invoke_api = get_invoke_api_usecase(client)
     get_linked_models = get_linked_models_usecase(invoke_api)
+    command = _get_command(args)
 
     connect()
     try:
-        prefix = system_config.get_prefix(_get_command(args)) or args.api_prefix
-        data = invoke_api(prefix, recurse=True)
-        data.set_linked_models(get_linked_models(data))
+        prefix = system_config.get_prefix(command) or args.api_prefix
+        command_property = system_config.get_property(command)
+        recurse = system_config.get_recurse(command)
+        data = invoke_api(prefix, recurse=recurse)
+        if recurse:
+            data.set_linked_models(get_linked_models(data))
+        if command_property:
+            data = data.get(KEY_LINKS, {}).get(command_property)
         results = json.dumps(data, indent=2, sort_keys=True)
         # TODO: Report use case
         with open('data.json', 'w') as writer:

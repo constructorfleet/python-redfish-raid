@@ -6,6 +6,8 @@ ATTR_DATA_TYPE = '@odata.type'
 ATTR_ID = '@odata.id'
 ATTR_LINKS = 'Links'
 
+KEY_LINKS = '@links'
+
 COMMAND_NAGIOS = 'nagios'
 COMMAND_SHOW_ALL = 'show_all'
 COMMAND_SHOW_PR = 'show_pr'

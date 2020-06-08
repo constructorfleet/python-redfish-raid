@@ -1,5 +1,7 @@
 import json
 
+from const import KEY_LINKS
+
 DATA_TYPE_IGNORED = "Ignored Type"
 
 
@@ -24,7 +26,7 @@ class ServiceData(dict):
             self['@context'] = self.context
 
     def set_linked_models(self, linked_models):
-        self['@links'] = linked_models
+        self[KEY_LINKS] = linked_models
 
     def __str__(self) -> str:
         return json.dumps(self, indent=2, sort_keys=True)
