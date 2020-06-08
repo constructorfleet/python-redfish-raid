@@ -2,8 +2,8 @@ import argparse
 import json
 
 from data.client.RedfishClient import RedfishClient
-from domain.usecases.ConnectUseCase import ConnectUseCase
-from domain.usecases.RecurseApiUseCase import RecurseApiUseCase
+from domain.usecases.api.ConnectUseCase import ConnectUseCase
+from domain.usecases.api.RecurseApiUseCase import RecurseApiUseCase
 
 API_REDFISH = "Redfish"
 DEFAULT_API = API_REDFISH
