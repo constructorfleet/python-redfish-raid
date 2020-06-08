@@ -1,7 +1,7 @@
 from framework.usecases.UseCase import UseCase
 
 
-class CacheModelUseCase(UseCase):
+class AddModelToCacheUseCase(UseCase):
     """Add model to cache use case."""
 
     def __init__(self, model_cache):

@@ -8,11 +8,11 @@ from domain.usecases.api.DisconnectUseCase import DisconnectUseCase
 from domain.usecases.api.InvokeApiUseCase import InvokeApiUseCase
 from domain.usecases.configs.GetSystemConfigUseCase import GetSystemConfigUseCase
 from domain.usecases.configs.LoadConfigurationUseCase import LoadConfigurationUseCase
-from domain.usecases.models.CacheModelUseCase import CacheModelUseCase
-from domain.usecases.models.GetCachedModelUseCase import GetCachedModelUseCase
+from domain.usecases.models.AddModelToCacheUseCase import AddModelToCacheUseCase
+from domain.usecases.models.RetrieveModelFromCacheUseCase import RetrieveModelFromCacheUseCase
 from domain.usecases.models.GetLinkedModelsUseCase import GetLinkedModelsUseCase
 from domain.usecases.models.GetModelCache import GetModelCacheUseCase
-from domain.models.ServiceData import ReferencedServiceData
+from domain.models.ServiceData import ServiceDataReference
 from framework.client import get_client
 
 
@@ -41,24 +41,26 @@ def get_model_cache():
     return GetModelCacheUseCase()()
 
 
-def get_cache_model_usecase():
+def get_add_model_to_cache_usecase():
     """Get use case for caching models."""
-    return CacheModelUseCase(get_model_cache())
+    return AddModelToCacheUseCase(get_model_cache())
 
 
-def get_model_cached_usecase():
+def get_retrieve_cached_model_usecase():
     """Get use case for retrieving cached models."""
-    return GetCachedModelUseCase(get_model_cache())
+    return RetrieveModelFromCacheUseCase(get_model_cache())
 
 
 def get_invoke_api_usecase(client):
     """Get invoke api usecase."""
-    return InvokeApiUseCase(client, get_model_cached_usecase(), get_cache_model_usecase())
+    return InvokeApiUseCase(client,
+                            get_retrieve_cached_model_usecase(),
+                            get_add_model_to_cache_usecase())
 
 
 def get_linked_models_usecase(invoke_api):
     """Get use case for retrieving linked models."""
-    return GetLinkedModelsUseCase(get_model_cached_usecase(), invoke_api)
+    return GetLinkedModelsUseCase(get_retrieve_cached_model_usecase(), invoke_api)
 
 
 def _api_args(parser):
@@ -154,7 +156,7 @@ def main():
     disconnect = get_disconnect_usecase(client)
     invoke_api = get_invoke_api_usecase(client)
     get_linked_models = get_linked_models_usecase(invoke_api)
-    get_cached_model = get_model_cached_usecase()
+    get_cached_model = get_retrieve_cached_model_usecase()
     command = _get_command(args)
 
     connect()
@@ -168,13 +170,13 @@ def main():
         if command_property:
             data = data.get(ATTR_LINKS, {}).get(command_property)
         if isinstance(data, list):
-            data = [get_cached_model(item.id)  if isinstance(item, ReferencedServiceData) else item for item in data]
+            data = [get_cached_model(item.id)  if isinstance(item, ServiceDataReference) else item for item in data]
         if isinstance(data, dict):
             new_data = {}
             for key, value in data.items():
                 if isinstance(value, list):
-                    new_data[key] = [get_cached_model(item.id) if isinstance(item, ReferencedServiceData) else item for item in value]
-                elif isinstance(value, ReferencedServiceData):
+                    new_data[key] = [get_cached_model(item.id) if isinstance(item, ServiceDataReference) else item for item in value]
+                elif isinstance(value, ServiceDataReference):
                     new_data[key] = get_cached_model(item.id)
                 else:
                     new_data[key] = value

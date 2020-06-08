@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from const import ATTR_ID, ATTR_CONTEXT, ATTR_DATA_TYPE, ATTR_LINKS
-from domain.models.ServiceData import ServiceData, IgnoredServiceData, ReferencedServiceData
+from domain.models.ServiceData import ServiceData, IgnoredServiceDataType, ServiceDataReference
 from framework.usecases.UseCase import UseCase
 
 _BLACKLIST_KEYWORDS = [
@@ -35,6 +35,7 @@ _BLACKLIST_KEYWORDS = [
     # 'Managers'
 ]
 
+# Keep track of endpoints in stack heap to prevent circular recursion and heap exceptions
 _ACTIVE_ENDPOINTS = []
 
 
@@ -56,12 +57,12 @@ def _is_blacklisted(endpoint):
 class InvokeApiUseCase(UseCase):
     """Invoke api use case."""
 
-    def __init__(self, client, get_cached_model, cache_model):
+    def __init__(self, client, retrieve_cached_model, add_model_to_cache):
         """Instantiate a new instance of this use case."""
         super().__init__()
         self._client = client
-        self._get_cached_model = get_cached_model
-        self._cache_model = cache_model
+        self._retrieve_cached_model = retrieve_cached_model
+        self._add_model_to_cache = add_model_to_cache
 
     def __call__(self, endpoint, recurse=True):
         """Invoke the specified endpoint and recurse child properties if specified."""
@@ -69,30 +70,26 @@ class InvokeApiUseCase(UseCase):
             return endpoint  # Sanity check
         try:
             if not _is_blacklisted(endpoint):
-                cached_model = self._get_cached_model(endpoint)
+                cached_model = self._retrieve_cached_model(endpoint)
                 if cached_model or endpoint in _ACTIVE_ENDPOINTS:
-                    # print('Retrieving %s from cache' % endpoint)
-                    return ReferencedServiceData(endpoint)
+                    return ServiceDataReference(endpoint)
+
                 _ACTIVE_ENDPOINTS.append(endpoint)
                 # print('Retrieving %s' % endpoint)
                 response = self._client.get(endpoint)
-                # print(str(response))
                 id = _clear_key(response, ATTR_ID, endpoint)
                 context = _clear_key(response, ATTR_CONTEXT, endpoint)
                 data_type = _clear_key(response, ATTR_DATA_TYPE)
-
-                # links = _clear_key(response, ATTR_LINKS, {})
                 populated_json = response
+
                 if recurse:
                     populated_json = self._recurse_json(response)
-                    # json_links = self._recurse_json(links)
-                    # populated_json["@links"] = json_links
 
                 cached_model = ServiceData(id, context, data_type, populated_json, {})
                 _ACTIVE_ENDPOINTS.remove(endpoint)
             else:
-                cached_model = IgnoredServiceData(endpoint)
-            self._cache_model(cached_model)
+                cached_model = IgnoredServiceDataType(endpoint)
+            self._add_model_to_cache(cached_model)
             return cached_model
 
         except Exception as err:

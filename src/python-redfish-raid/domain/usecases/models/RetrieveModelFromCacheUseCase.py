@@ -1,7 +1,7 @@
 from framework.usecases.UseCase import UseCase
 
 
-class GetCachedModelUseCase(UseCase):
+class RetrieveModelFromCacheUseCase(UseCase):
     """Get model from cache if exists."""
 
     def __init__(self, model_cache):

@@ -1,9 +1,7 @@
 import json
 
-from const import KEY_LINKS
-
-DATA_TYPE_IGNORED = "Ignored Type"
-DATA_TYPE_REFERENCE_ABOVE = "Reference Above"
+DATA_TYPE_IGNORED = "Ignored Data Type"
+DATA_TYPE_REFERENCE = "See Referenced ID"
 
 
 class ServiceData(dict):
@@ -26,14 +24,11 @@ class ServiceData(dict):
         if self.context:
             self['@context'] = self.context
 
-    def set_linked_models(self, linked_models):
-        self[KEY_LINKS] = linked_models
-
     def __str__(self) -> str:
         return json.dumps(self, indent=2, sort_keys=True)
 
 
-class IgnoredServiceData(ServiceData):
+class IgnoredServiceDataType(ServiceData):
     """Ignored service data container."""
 
     def __init__(self, id):
@@ -41,9 +36,9 @@ class IgnoredServiceData(ServiceData):
         super().__init__(id, None, DATA_TYPE_IGNORED, {})
 
 
-class ReferencedServiceData(ServiceData):
+class ServiceDataReference(ServiceData):
     """Referenced service data container."""
 
     def __init__(self, id):
-        """Create an ignored service data model."""
-        super().__init__(id, None, DATA_TYPE_REFERENCE_ABOVE, {})
+        """Create a placeholder indicating the service data model can be referenced elsewhere."""
+        super().__init__(id, None, DATA_TYPE_REFERENCE, {})
