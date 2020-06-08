@@ -9,10 +9,9 @@ class ServiceData(dict):
         self.id = id
         self.context = context
         self.data_type = api_data_type
-        self.linked_entity_map = links or {}
+        self.links = links or {}
         for key, value in attrs.items():
             self[key] = value
 
     def __str__(self) -> str:
         return "(%s:%s) -> %s" % (self.data_type, self.id, super().__str__())
-

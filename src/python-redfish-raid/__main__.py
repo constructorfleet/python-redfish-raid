@@ -1,19 +1,25 @@
 import argparse
+import json
 
 from data.client.RedfishClient import RedfishClient
 from domain.usecases.ConnectUseCase import ConnectUseCase
 from domain.usecases.RecurseApiUseCase import RecurseApiUseCase
 
+API_REDFISH = "Redfish"
+DEFAULT_API = API_REDFISH
 
-def _redfish_args(parser):
-    """Redfish client arguments."""
-    parser.add_argument("--host", action="store_true", dest="login_host", required=True,
-                        help="Redfish host to connect to.")
-    parser.add_argument("--account", action="store_true", dest="login_account", required=True,
+
+def _api_args(parser):
+    """Client api arguments."""
+    parser.add_argument("--api", dest="api_type", required=False, type=str, default=DEFAULT_API,
+                        help="API implementation name.")
+    parser.add_argument("--host", dest="login_host", required=True, type=str,
+                        help="Host to connect to.")
+    parser.add_argument("--account", dest="login_account", required=True, type=str,
                         help="Redfish account for authentication.")
-    parser.add_argument("--password", action="store_true", dest="login_password", required=True,
+    parser.add_argument("--password", dest="login_password", required=True, type=str,
                         help="Redfish account password for authentication.")
-    parser.add_argument("--prefix", action="store_true", dest="refish_prefix",
+    parser.add_argument("--prefix", dest="refish_prefix", type=str,
                         default="/redfish/v1", help="Redfix client prefix.")
 
 
@@ -79,25 +85,43 @@ def _nagios_command(parser):
                         default=False, action='store_true',
                         help='Ignore the write cache settings.')
 
+def _get_client(api_type, host, username, password, **kwargs):
+    if api_type == API_REDFISH:
+        return RedfishClient(host, username, password, prefix=kwargs.get('prefix'))
+    raise Exception('Invalid api type %s' % api_type)
+
+def _get_connect_usecase(client):
+    return ConnectUseCase(client)
+
+def _get_recurse_api_usecase(client):
+    return RecurseApiUseCase(client)
 
 def main():
     """Main entry point to Redfish RAID."""
 
     parser = argparse.ArgumentParser(description="Redfish integration with RAID controller.")
-    subparsers = parser.add_subparsers()
-    _redfish_args(parser)
-    _legacy_args(parser)
-    _show_command(subparsers.add_parser('show', help="Display information specified by arguments."))
-    _nagios_command(subparsers.add_parser('nagios', help="Nagios monitoring information."))
+    # subparsers = parser.add_subparsers()
+    _api_args(parser)
+    # _legacy_args(parser)
+    # _show_command(subparsers.add_parser('show', help="Display information specified by arguments."))
+    # _nagios_command(subparsers.add_parser('nagios', help="Nagios monitoring information."))
 
     args = parser.parse_args()
-    client = RedfishClient()
-    ConnectUseCase(client)(args.login_host,
-                           args.login_account,
-                           args.login_passsword,
-                           prefix=args.refish_prefix)
-    data = RecurseApiUseCase(client)(args.refish_prefix)
-    print(str(data))
+    print(str(args))
+    client = _get_client(args.api_type,
+                         args.login_host,
+                         args.login_account,
+                         args.login_password,
+                         prefix=args.refish_prefix)
+    connect = _get_connect_usecase(client)
+    recurse = _get_recurse_api_usecase(client)
+
+    connect()
+    try:
+        data = recurse(args.refish_prefix)
+        print(json.dumps(data, indent=2, sort_keys=True))
+    finally:
+        client.disconnect()
 
 
 

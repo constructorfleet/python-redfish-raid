@@ -9,12 +9,10 @@ class ConnectUseCase(UseCase):
         super().__init__()
         self.client = client
 
-    def __call__(self, host=None, username=None, password=None, prefix=None):
+    def __call__(self, **kwargs):
         """Connect to host with given credentials."""
         try:
-            self.client.connect(host, username, password, prefix)
+            self.client.connect()
         except Exception as err:
             self._logger.error("Connection error: %s", str(err))
             raise err  # Re-raise error
-
-
