@@ -2,19 +2,18 @@ import json
 
 import argparse
 
-from const import DEFAULT_API, COMMAND_SHOW_ALL, COMMAND_NAGIOS, COMMAND_SHOW_PR, COMMAND_SHOW_CC, \
+from const import DEFAULT_API, COMMAND_SHOW_ALL, COMMAND_SHOW_PR, COMMAND_SHOW_CC, \
     COMMAND_SHOW_BBU, COMMAND_SHOW_ENC, COMMAND_SHOW_DISKS, COMMAND_SHOW_LOGICAL
-from domain.usecases.configs.GetSystemConfigUseCase import GetSystemConfigUseCase
-from domain.usecases.configs.LoadConfigurationUseCase import LoadConfigurationUseCase
-from framework.client import get_client
-
 from domain.usecases.api.ConnectUseCase import ConnectUseCase
 from domain.usecases.api.DisconnectUseCase import DisconnectUseCase
 from domain.usecases.api.InvokeApiUseCase import InvokeApiUseCase
+from domain.usecases.configs.GetSystemConfigUseCase import GetSystemConfigUseCase
+from domain.usecases.configs.LoadConfigurationUseCase import LoadConfigurationUseCase
 from domain.usecases.models.CacheModelUseCase import CacheModelUseCase
 from domain.usecases.models.GetCachedModelUseCase import GetCachedModelUseCase
-from domain.usecases.models.GetModelCache import GetModelCacheUseCase
 from domain.usecases.models.GetLinkedModelsUseCase import GetLinkedModelsUseCase
+from domain.usecases.models.GetModelCache import GetModelCacheUseCase
+from framework.client import get_client
 
 
 def get_load_configuration_usecase():
@@ -22,9 +21,9 @@ def get_load_configuration_usecase():
     return LoadConfigurationUseCase()
 
 
-def get_system_configuration_usecase(load_config, system):
+def get_system_configuration_usecase(load_config):
     """"Get system configuration use case."""
-    return GetSystemConfigUseCase(load_config(system))
+    return GetSystemConfigUseCase(load_config())
 
 
 def get_connect_usecase(client):
@@ -141,7 +140,7 @@ def main():
 
     args = parser.parse_args()
     print(str(args))
-    system_config = get_system_configuration_usecase(get_load_configuration_usecase(), args.system)()
+    system_config = get_system_configuration_usecase(get_load_configuration_usecase())(args.system)
     client = get_client(args.api_type,
                         args.login_host,
                         args.login_account,
