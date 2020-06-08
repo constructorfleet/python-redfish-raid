@@ -1,21 +1,41 @@
 from copy import deepcopy
 
 from const import ATTR_ID, ATTR_CONTEXT, ATTR_DATA_TYPE, ATTR_LINKS
-from domain.models.ServiceData import ServiceData, IgnoredServiceData
+from domain.models.ServiceData import ServiceData, IgnoredServiceData, ReferencedServiceData
 from framework.usecases.UseCase import UseCase
 
 _BLACKLIST_KEYWORDS = [
     'Fan',
     'DIMM',
+    'Assembly',
     'Sensor',
     'Processor',
-    'Power',
+    #'Power',
+    'PCIeFunction',
+    'Thermal',
+    # 'PCIeDevice',
+    'PowerSupplies',
+    # 'DellOSDeploymentService',
+    'Memory',
     'JSON',
     'Certificates',
     'Software',
-    'Log',
-    'Network'
+    'Logs',
+    'Network',
+    'Ethernet',
+    'Jobs',
+    'Accounts',
+    'Users',
+    'Sessions',
+    'Bios',
+    'BootOptions',
+    'BootSources',
+    # 'DellNumericSensor',
+    'License',
+    # 'Managers'
 ]
+
+_ACTIVE_ENDPOINTS = []
 
 
 def _clear_key(json_dict, key, default=None):
@@ -48,23 +68,28 @@ class InvokeApiUseCase(UseCase):
         if not endpoint.startswith('/'):
             return endpoint  # Sanity check
         try:
-            cached_model = self._get_cached_model(endpoint)
-            if cached_model:
-                print('Retrieving %s from cache' % endpoint)
-                return cached_model
             if not _is_blacklisted(endpoint):
-                print('Retrieving %s' % endpoint)
+                cached_model = self._get_cached_model(endpoint)
+                if cached_model or endpoint in _ACTIVE_ENDPOINTS:
+                    # print('Retrieving %s from cache' % endpoint)
+                    return ReferencedServiceData(endpoint)
+                _ACTIVE_ENDPOINTS.append(endpoint)
+                # print('Retrieving %s' % endpoint)
                 response = self._client.get(endpoint)
+                # print(str(response))
                 id = _clear_key(response, ATTR_ID, endpoint)
                 context = _clear_key(response, ATTR_CONTEXT, endpoint)
                 data_type = _clear_key(response, ATTR_DATA_TYPE)
 
-                links = _clear_key(response, ATTR_LINKS, {})
+                # links = _clear_key(response, ATTR_LINKS, {})
                 populated_json = response
                 if recurse:
                     populated_json = self._recurse_json(response)
+                    # json_links = self._recurse_json(links)
+                    # populated_json["@links"] = json_links
 
-                cached_model = ServiceData(id, context, data_type, populated_json, links)
+                cached_model = ServiceData(id, context, data_type, populated_json, {})
+                _ACTIVE_ENDPOINTS.remove(endpoint)
             else:
                 cached_model = IgnoredServiceData(endpoint)
             self._cache_model(cached_model)
@@ -83,7 +108,7 @@ class InvokeApiUseCase(UseCase):
         json_copy = deepcopy(json)
         for key, value in json_copy.items():
             if key == ATTR_ID:
-                return self(value)
+                return json if value in _ACTIVE_ENDPOINTS else self(value)
 
             if isinstance(value, dict):
                 json[key] = self._recurse_json(value)

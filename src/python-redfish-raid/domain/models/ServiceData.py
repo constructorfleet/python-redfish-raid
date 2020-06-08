@@ -3,6 +3,7 @@ import json
 from const import KEY_LINKS
 
 DATA_TYPE_IGNORED = "Ignored Type"
+DATA_TYPE_REFERENCE_ABOVE = "Reference Above"
 
 
 class ServiceData(dict):
@@ -38,3 +39,11 @@ class IgnoredServiceData(ServiceData):
     def __init__(self, id):
         """Create an ignored service data model."""
         super().__init__(id, None, DATA_TYPE_IGNORED, {})
+
+
+class ReferencedServiceData(ServiceData):
+    """Referenced service data container."""
+
+    def __init__(self, id):
+        """Create an ignored service data model."""
+        super().__init__(id, None, DATA_TYPE_REFERENCE_ABOVE, {})
