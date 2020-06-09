@@ -69,6 +69,7 @@ def main():
                                           args.login_account,
                                           args.login_password,
                                           args,
+                                          system=args.system,
                                           api_prefix=args.api_prefix)()
     json_results = json.dumps(results, indent=2, sort_keys=True)
     # TODO: Report use case
