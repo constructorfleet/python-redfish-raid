@@ -63,9 +63,19 @@ class InvokeApiUseCase(UseCase):
         self._client = client
         self._retrieve_cached_model = retrieve_cached_model
         self._add_model_to_cache = add_model_to_cache
+        self._recursion_depth = 0
 
     def __call__(self, endpoint, recurse=True):
         """Invoke the specified endpoint and recurse child properties if specified."""
+        self._recursion_depth += 1
+        self._invoke_api(endpoint, recurse)
+        self._recursion_depth -= 1
+
+    def _invoke_api(self, endpoint, recurse=True):
+        if isinstance(recurse, int) and self._recursion_depth > recurse:
+            self._recursion_depth -= 1
+            return
+
         if not endpoint.startswith('/'):
             return endpoint  # Sanity check
         try:
