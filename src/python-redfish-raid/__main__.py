@@ -3,64 +3,7 @@ import json
 import argparse
 
 from const import *
-from domain.usecases.api.ConnectUseCase import ConnectUseCase
-from domain.usecases.api.DisconnectUseCase import DisconnectUseCase
-from domain.usecases.api.InvokeApiUseCase import InvokeApiUseCase
-from domain.usecases.configs.GetSystemConfigUseCase import GetSystemConfigUseCase
-from domain.usecases.configs.LoadConfigurationUseCase import LoadConfigurationUseCase
-from domain.usecases.models.AddModelToCacheUseCase import AddModelToCacheUseCase
-from domain.usecases.models.RetrieveModelFromCacheUseCase import RetrieveModelFromCacheUseCase
-from domain.usecases.models.GetLinkedModelsUseCase import GetLinkedModelsUseCase
-from domain.usecases.models.GetModelCache import GetModelCacheUseCase
-from domain.models.ServiceData import ServiceDataReference
-from framework.client import get_client
-
-
-def get_load_configuration_usecase():
-    """Get configuration loader use case."""
-    return LoadConfigurationUseCase()
-
-
-def get_system_configuration_usecase(load_config):
-    """"Get system configuration use case."""
-    return GetSystemConfigUseCase(load_config)
-
-
-def get_connect_usecase(client):
-    """Get connect use case."""
-    return ConnectUseCase(client)
-
-
-def get_disconnect_usecase(client):
-    """Get disconnect use case."""
-    return DisconnectUseCase(client)
-
-
-def get_model_cache():
-    """Get model cache use case."""
-    return GetModelCacheUseCase()()
-
-
-def get_add_model_to_cache_usecase():
-    """Get use case for caching models."""
-    return AddModelToCacheUseCase(get_model_cache())
-
-
-def get_retrieve_cached_model_usecase():
-    """Get use case for retrieving cached models."""
-    return RetrieveModelFromCacheUseCase(get_model_cache())
-
-
-def get_invoke_api_usecase(client):
-    """Get invoke api usecase."""
-    return InvokeApiUseCase(client,
-                            get_retrieve_cached_model_usecase(),
-                            get_add_model_to_cache_usecase())
-
-
-def get_linked_models_usecase(invoke_api):
-    """Get use case for retrieving linked models."""
-    return GetLinkedModelsUseCase(get_retrieve_cached_model_usecase(), invoke_api)
+from di import get_run_application_usecase
 
 
 def _api_args(parser):
@@ -102,8 +45,8 @@ def _command_args(parser):
     # parser.add_argument('--showmissing', default=False, action='store_true', dest="show_missing",
     #                     help='Display disks that are missing.')
 
-    # parser.add_argument('--nagios', default=False, action='store_true', dest="nagios",
-    #                     help='Check health and output in Nagios format.')
+    parser.add_argument('--nagios', default=False, action='store_true', dest="nagios",
+                        help='Check health and output in Nagios format.')
     # parser.add_argument('-c', default=False, action='store_true', dest="nagios_critical",
     #                     help='Use with --nagios: make the check go critical when a disk fails.')
     # parser.add_argument('-i', '--ignorewritecache', dest='nagios_ignorewritecache',
@@ -111,83 +54,27 @@ def _command_args(parser):
     #                     help='Use with --nagios: ignore the write cache setting.')
 
 
-def _get_command(args):
-    """Get the command from the args."""
-    # TODO : More dynamic
-    # if args.nagios:
-    #     return COMMAND_NAGIOS
-    if args.show_all:
-        return COMMAND_SHOW_ALL
-    if args.show_pr:
-        return COMMAND_SHOW_PR
-    if args.show_cc:
-        return COMMAND_SHOW_CC
-    if args.show_bbu:
-        return COMMAND_SHOW_BBU
-    if args.show_enc:
-        return COMMAND_SHOW_ENC
-    if args.show_disks:
-        return COMMAND_SHOW_DISKS
-    if args.show_logical:
-        return COMMAND_SHOW_LOGICAL
-
-    return COMMAND_SHOW_ALL
-
-
 def main():
     """Main entry point to Redfish RAID."""
 
     parser = argparse.ArgumentParser(description="Redfish integration with RAID controller.")
-    # subparsers = parser.add_subparsers()
     _api_args(parser)
     _command_args(parser)
 
     args = parser.parse_args()
     print(str(args))
-    system_config = get_system_configuration_usecase(
-        get_load_configuration_usecase()
-        )(args.system)
-    client = get_client(args.api_type,
-                        args.login_host,
-                        args.login_account,
-                        args.login_password,
-                        prefix=args.api_prefix)
-    connect = get_connect_usecase(client)
-    disconnect = get_disconnect_usecase(client)
-    invoke_api = get_invoke_api_usecase(client)
-    get_linked_models = get_linked_models_usecase(invoke_api)
-    get_cached_model = get_retrieve_cached_model_usecase()
-    command = _get_command(args)
 
-    connect()
-    try:
-        prefix = system_config.get_prefix(command) or args.api_prefix
-        command_property = system_config.get_property(command)
-        recurse = system_config.get_recurse(command)
-        data = invoke_api(prefix, recurse=recurse)
-        # if recurse:
-        #     data.set_linked_models(get_linked_models(data))
-        if command_property:
-            data = data.get(ATTR_LINKS, {}).get(command_property)
-        if isinstance(data, list):
-            data = [get_cached_model(item.id)  if isinstance(item, ServiceDataReference) else item for item in data]
-        if isinstance(data, dict):
-            new_data = {}
-            for key, value in data.items():
-                if isinstance(value, list):
-                    new_data[key] = [get_cached_model(item.id) if isinstance(item, ServiceDataReference) else item for item in value]
-                elif isinstance(value, ServiceDataReference):
-                    new_data[key] = get_cached_model(item.id)
-                else:
-                    new_data[key] = value
-            data = new_data
-        results = json.dumps(data, indent=2, sort_keys=True)
-        # TODO: Report use case
-        with open('data.json', 'w') as writer:
-            writer.write(results)
-        print(results)
-    finally:
-        disconnect()
+    results = get_run_application_usecase(args.api_type,
+                                          args.login_host,
+                                          args.login_account,
+                                          args.login_password,
+                                          args,
+                                          api_prefix=args.api_prefix)()
+    json_results = json.dumps(results, indent=2, sort_keys=True)
+    # TODO: Report use case
+    with open('data.json', 'w') as writer:
+        writer.write(json_results)
+    print(json_results)
 
 
 if __name__ == '__main__':

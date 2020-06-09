@@ -23,4 +23,4 @@ class DictSystemConfig(SystemConfig):
         return self._get_command_config(command).get(_RECURSE, False)
 
     def _get_command_config(self, command):
-        return self._config.get(command, {})
+        return self._config.get(command.command_name, {})

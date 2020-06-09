@@ -13,3 +13,10 @@ class SystemConfig(abc.ABC):
     def get_property(self, command):
         """Return the property for the given command."""
         pass
+
+    @abc.abstractmethod
+    def get_recurse(self, command):
+        """Get whether or not to recurse the api given the specified command."""
+        pass
+
+
