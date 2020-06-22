@@ -107,7 +107,7 @@ def get_run_application_usecase(api_type,
         get_load_configuration_usecase()
     )(kwargs['system'])
     command = get_command_use_case()(flags)
-    invoke_api = get_invoke_api_usecase(client, config, command)
+    invoke_api = get_invoke_api_usecase(client, config, command.command_name)
     return RunApplicationUseCase(
         config,
         invoke_api,
