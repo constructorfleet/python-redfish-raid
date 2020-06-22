@@ -4,7 +4,7 @@ from jsonquery import processPath
 from framework.usecases.UseCase import UseCase
 
 
-class FitlterOutputCaseUseCase(UseCase):
+class FilterOutputCaseUseCase(UseCase):
     """Filter api output."""
 
     def __init__(self, json_queries):
