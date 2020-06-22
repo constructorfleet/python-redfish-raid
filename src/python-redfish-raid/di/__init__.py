@@ -66,6 +66,9 @@ def get_filter_output_usecase(config, command):
             if isinstance(value, dict) and value.get('json_queries'):
                 json_queries = json_queries + value[json_queries]
 
+    if len(json_queries) == 0:
+        return None
+
     return FilterOutputCaseUseCase(json_queries)
 
 
