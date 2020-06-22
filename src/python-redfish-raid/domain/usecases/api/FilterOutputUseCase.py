@@ -20,11 +20,12 @@ class FilterOutputCaseUseCase(UseCase):
                 response[key] = value
                 continue
             for query_key, json_queries in self._get_json_queries_for_data(endpoint).items():
+                print('Found json queries')
                 results = []
                 for json_query in json_queries:
-                    results = processPath(value, json_query)
+                    results = results + processPath(value, json_query)
                 response[query_key] = results
-
+        print(str(response))
         return response
 
     def _get_json_queries_for_data(self, endpoint):

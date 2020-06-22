@@ -92,7 +92,7 @@ class InvokeApiUseCase(UseCase):
                 context = _clear_key(response, ATTR_CONTEXT, endpoint)
                 data_type = _clear_key(response, ATTR_DATA_TYPE)
                 populated_json = response
-                filtered_json = self._filter_output(response,
+                filtered_json = self._filter_output(populated_json,
                                                     endpoint) if self._filter_output else response
 
                 if recurse:
