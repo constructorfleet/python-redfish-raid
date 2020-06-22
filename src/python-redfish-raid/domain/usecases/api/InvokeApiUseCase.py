@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from const import ATTR_ID, ATTR_CONTEXT, ATTR_DATA_TYPE, ATTR_LINKS
+from const import ATTR_ID, ATTR_CONTEXT, ATTR_DATA_TYPE
 from domain.models.ServiceData import ServiceData, IgnoredServiceDataType, ServiceDataReference
 from framework.usecases.UseCase import UseCase
 
@@ -57,12 +57,13 @@ def _is_blacklisted(endpoint):
 class InvokeApiUseCase(UseCase):
     """Invoke api use case."""
 
-    def __init__(self, client, retrieve_cached_model, add_model_to_cache):
+    def __init__(self, client, retrieve_cached_model, add_model_to_cache, filer_output):
         """Instantiate a new instance of this use case."""
         super().__init__()
         self._client = client
         self._retrieve_cached_model = retrieve_cached_model
         self._add_model_to_cache = add_model_to_cache
+        self._filter_output = filter_output
         self._recursion_depth = 0
 
     def __call__(self, endpoint, recurse):
@@ -91,11 +92,14 @@ class InvokeApiUseCase(UseCase):
                 context = _clear_key(response, ATTR_CONTEXT, endpoint)
                 data_type = _clear_key(response, ATTR_DATA_TYPE)
                 populated_json = response
+                filtered_json = self._filter_output(response,
+                                                    endpoint) if self._filter_output else response
 
                 if recurse:
                     populated_json = self._recurse_json(response, recurse)
+                    filtered_json = filtered_json.update(populated_json)
 
-                cached_model = ServiceData(id, context, data_type, populated_json, {})
+                cached_model = ServiceData(id, context, data_type, filtered_json, {})
                 _ACTIVE_ENDPOINTS.remove(endpoint)
             else:
                 cached_model = IgnoredServiceDataType(endpoint)

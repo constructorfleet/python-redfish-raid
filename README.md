@@ -37,7 +37,7 @@ Configuration files are YAML based and can be specified at run time using the `-
   `recurse`: Use `False` to disable API recursion, `True` to enable full API recursion or an integer to specify the maximum recursion depth  
   `json_queries`: List of resource endpoints and JSON Query strings to make the output less cluttered  
     `endpoint`: Regular expression to match resource endpoint
-    `queries`: List of JSON Query and Select statements to display
+    `queries`: List of JSON Query and Select statements to display (See https://github.com/arkhotech/json_query for syntax and information)
     
 ## Custom API clients
 
