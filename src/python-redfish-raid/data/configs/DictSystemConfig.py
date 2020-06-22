@@ -14,13 +14,13 @@ class DictSystemConfig(SystemConfig):
         self._config = config
 
     def get_prefix(self, command):
-        return self._get_command_config(command).get(_PREFIX)
+        return self.get_command_config(command).get(_PREFIX)
 
     def get_property(self, command):
-        return self._get_command_config(command).get(_PROPERTY)
+        return self.get_command_config(command).get(_PROPERTY)
 
     def get_recurse(self, command):
-        return self._get_command_config(command).get(_RECURSE, False)
+        return self.get_command_config(command).get(_RECURSE, False)
 
-    def _get_command_config(self, command):
+    def get_command_config(self, command):
         return self._config.get(command.command_name, {})

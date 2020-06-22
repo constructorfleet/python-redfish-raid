@@ -61,7 +61,7 @@ def get_api_client_usecase():
 def get_filter_output_usecase(config, command):
     """Get use case for filtering api output."""
     json_queries = []
-    for values in config[command]:
+    for values in config.get_command_config(command):
         for value in values:
             if isinstance(value, dict) and value.get('json_queries'):
                 json_queries = json_queries + value[json_queries]
