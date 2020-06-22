@@ -57,7 +57,7 @@ def _is_blacklisted(endpoint):
 class InvokeApiUseCase(UseCase):
     """Invoke api use case."""
 
-    def __init__(self, client, retrieve_cached_model, add_model_to_cache, filer_output):
+    def __init__(self, client, retrieve_cached_model, add_model_to_cache, filter_output):
         """Instantiate a new instance of this use case."""
         super().__init__()
         self._client = client
