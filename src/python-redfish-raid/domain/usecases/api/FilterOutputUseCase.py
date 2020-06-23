@@ -1,4 +1,5 @@
 import jmespath
+from jmespath import functions
 import humanize
 
 from string import Formatter
@@ -17,8 +18,16 @@ class KWArgFormatter(Formatter):
             return Formatter.get_value(key, args, kwargs)
 
 
+class CustomFunctions(functions.Functions):
+    @functions.signature({'types': ['number']})
+    def _func_naturalsize(self, value):
+        return humanize.naturalsize(value)
+
+
 class FilterOutputCaseUseCase(UseCase):
     """Filter api output."""
+
+    options = jmespath.Options(custom_functions=CustomFunctions())
 
     def __init__(self, json_filters):
         """Create a use case for performing queries against the JSON responses."""
@@ -33,14 +42,7 @@ class FilterOutputCaseUseCase(UseCase):
         response = {}
         for query in self._json_filters:
             key = query['key']
-            filtered_json = jmespath.search(query['jq'], service_data_json)
-            # print(filtered_json)
-            # if 'transforms' in query:
-            #     transforms = query[trans]
-            #     for item in filtered_json:
-            #         if item not in transforms:
-            #             filtered_json
-            #     filtered_json = [item if item not in transforms else humanize.__getattribute__(transforms[item])(item) for item in filtered_json]
+            filtered_json = jmespath.search(query['jq'], service_data_json, options=self.options)
 
             if 'format' in query:
                 item_format = query['format']
