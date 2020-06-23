@@ -6,4 +6,5 @@ ply==3.11
 PyYAML==5.3.1
 redfish==2.1.5
 six==1.15.0
-jmespath-0.10.0
+jmespath==0.10.0
+humanize==2.4.0
