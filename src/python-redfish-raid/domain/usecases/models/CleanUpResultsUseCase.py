@@ -8,10 +8,12 @@ class CleanUpResultsUseCase(UseCase):
 
     def __init__(self,
                  get_model_from_cache,
-                 invoke_api):
+                 invoke_api,
+                 filter_output):
         super().__init__()
         self._get_model_from_cache = get_model_from_cache
         self._invoke_api = invoke_api
+        self._filter_output = filter_output
 
     def __call__(self, data, retrieve_linked_property=None):
         """Clean up result set of data models."""
@@ -19,6 +21,9 @@ class CleanUpResultsUseCase(UseCase):
             results = data.get(ATTR_LINKS, {}).get(retrieve_linked_property)
         else:
             results = data
+
+        if self._filter_output is not None:
+            results = self._filter_output(results)
 
         if isinstance(results, list):
             results = self._process_list_of_models(results)
@@ -32,6 +37,7 @@ class CleanUpResultsUseCase(UseCase):
                 else:
                     new_data[key] = value
             results = new_data
+
         return results
 
     def _process_list_of_models(self, model_list):

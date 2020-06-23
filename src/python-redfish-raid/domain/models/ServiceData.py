@@ -16,8 +16,9 @@ class ServiceData(dict):
         self.context = context
         self.data_type = api_data_type
         self.links = links or {}
-        for key, value in attrs.items():
-            self[key] = value
+        if attrs is not None and len(attrs.keys()) > 0:
+            for key, value in attrs.items():
+                self[key] = value
 
         self['@id'] = self.id
         self['@data_type'] = self.data_type

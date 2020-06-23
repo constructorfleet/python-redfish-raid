@@ -18,7 +18,7 @@ Commandline arguments/flags:
 `--showprinfo`: Show the Patrol Read status information [NOT IMPLEMENTED]  
 `--showccinfo`: Show the consistency check information [NOT IMPLEMENTED]  
 `--showbbuinfo`: Show the backup battery information [NOT IMPLEMENTED]  
-`--showencinf`: Show information related to the RAID enclosure
+`--showencinfo`: Show information related to the RAID enclosure
 `--showdisks`: Show the physical disk information for the array
 `--showlogical`: Show the information related to the logical volumes in the array
 `--nagios`: Perform a nagios status check on the array [NOT IMPLEMENTED]

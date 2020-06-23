@@ -61,32 +61,28 @@ def get_api_client_usecase():
 def get_filter_output_usecase(config, command):
     """Get use case for filtering api output."""
     json_queries = []
-    for values in config.get_command_config(command):
-        for value in values:
-            if isinstance(value, dict) and value.get('json_queries'):
-                json_queries = json_queries + value[json_queries]
-                print(str(json_queries))
-
+    for key, value in config.get_command_config(command).items():
+        if key != 'json_queries':
+            continue
+        json_queries = json_queries + (value if isinstance(value, list) else [value])
     if len(json_queries) == 0:
-        print('No json queries')
         return None
-
     return FilterOutputCaseUseCase(json_queries)
 
 
-def get_invoke_api_usecase(client, config, command):
+def get_invoke_api_usecase(client):
     """Get invoke api usecase."""
     return InvokeApiUseCase(client,
                             get_retrieve_cached_model_usecase(),
-                            get_add_model_to_cache_usecase(),
-                            get_filter_output_usecase(config, command))
+                            get_add_model_to_cache_usecase())
 
 
-def get_clean_up_results_usecase(invoke_api,):
+def get_clean_up_results_usecase(invoke_api, filter_output):
     """Get use case for cleaning up result set."""
     return CleanUpResultsUseCase(
         get_retrieve_cached_model_usecase(),
-        invoke_api
+        invoke_api,
+        filter_output
     )
 
 
@@ -106,12 +102,12 @@ def get_run_application_usecase(api_type,
     config = get_system_configuration_usecase(
         get_load_configuration_usecase()
     )(kwargs['system'])
+    invoke_api = get_invoke_api_usecase(client)
     command = get_command_use_case()(flags)
-    invoke_api = get_invoke_api_usecase(client, config, command.command_name)
     return RunApplicationUseCase(
         config,
         invoke_api,
-        get_clean_up_results_usecase(invoke_api),
+        get_clean_up_results_usecase(invoke_api, get_filter_output_usecase(config, command)),
         get_connect_usecase(client),
         get_disconnect_usecase(client),
         command,

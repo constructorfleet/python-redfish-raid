@@ -12,30 +12,11 @@ class FilterOutputCaseUseCase(UseCase):
         super().__init__()
         self._json_queries = json_queries
 
-    def __call__(self, service_data_json, endpoint):
+    def __call__(self, service_data_json):
         """Perform Json Query/Select operations against the API responses."""
+        if not isinstance(service_data_json, dict):
+            return None
         response = {}
-        for key, value in service_data_json:
-            if key.startswith('@'):
-                response[key] = value
-                continue
-            for query_key, json_queries in self._get_json_queries_for_data(endpoint).items():
-                print('Found json queries')
-                results = []
-                for json_query in json_queries:
-                    results = results + processPath(value, json_query)
-                response[query_key] = results
-        print(str(response))
+        for query in self._json_queries:
+            response[query['result_key']] = processPath(service_data_json, query['jq'])
         return response
-
-    def _get_json_queries_for_data(self, endpoint):
-        json_queries = []
-        for query_data in self._json_queries:
-            matches = re.match(query_data.endpoint_regex, endpoint, re.RegexFlag.I)
-            if matches:
-                json_queries = json_queries
-                json_queries[query_data['key']] = query_data
-
-        return json_queries
-
-

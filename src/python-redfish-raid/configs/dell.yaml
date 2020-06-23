@@ -1,6 +1,13 @@
 show_all:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
   recurse: 0
+  json_queries:
+    - result_key: health
+      jq: /Status/Health
+    - result_key: firmware_version
+      jq: /Oem/Dell/DellController/ControllerFirmwareVersion
+    - result_key: controller_model
+      jq: /StorageControllers[0]/Model
 show_pr:
   prefix: TODO
   # property: PatrolReadState
@@ -15,7 +22,12 @@ show_enc:
   # recurse: 1
 show_disks:
   prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
-  property: Drives
+  # property: Drives
+  json_queries:
+    - result_key: alldrives
+      jq: /Links/Drives
+    - result_key: drives
+      jq: /Linka/Drives/Links/Volumes/OEM
   recurse: 3
 show_logical:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
