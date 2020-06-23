@@ -36,22 +36,20 @@ show_disks:
   json_filters:
     - key: alldrives
       jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name}"
-      transforms:
-        CapacityBytes: naturalsize
-      # format: |
-      #   [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
+      format: |
+       [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
     - key: drivecount
       jq: "\"Drives@odata.count\""
     - key: failingcount
       jq: "length(Drives[?(Status.Health != `null`)])"
-  # report: |
-  #   All Drives:
-  #   {alldrives}
+   report: |
+     All Drives:
+     {alldrives}
 
-  #   There ared {drivecount} drives:
+     There ared {drivecount} drives:
 
-  #   Failed or Rebuilding Disks:
-  #   There are {failingcount} failing drives out of {drivecount}
+     Failed or Rebuilding Disks:
+     There are {failingcount} failing drives out of {drivecount}
 
 #       BlockSizeBytes
 # CapableSpeedGbs
