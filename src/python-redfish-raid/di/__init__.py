@@ -11,6 +11,7 @@ from domain.usecases.models.AddModelToCacheUseCase import AddModelToCacheUseCase
 from domain.usecases.models.CleanUpResultsUseCase import CleanUpResultsUseCase
 from domain.usecases.models.GetModelCache import GetModelCacheUseCase
 from domain.usecases.models.RetrieveModelFromCacheUseCase import RetrieveModelFromCacheUseCase
+from domain.usecases.reporting.ShowReportUseCase import ShowReportUseCase
 
 
 def get_load_configuration_usecase():
@@ -60,14 +61,10 @@ def get_api_client_usecase():
 
 def get_filter_output_usecase(config, command):
     """Get use case for filtering api output."""
-    json_queries = []
-    for key, value in config.get_command_config(command).items():
-        if key != 'json_queries':
-            continue
-        json_queries = json_queries + (value if isinstance(value, list) else [value])
-    if len(json_queries) == 0:
-        return None
-    return FilterOutputCaseUseCase(json_queries)
+    json_queries = config.get_command_config(command).get('json_queries')
+    if json_queries:
+        return FilterOutputCaseUseCase(json_queries)
+    return None
 
 
 def get_invoke_api_usecase(client):
@@ -83,6 +80,13 @@ def get_clean_up_results_usecase(invoke_api, filter_output):
         get_retrieve_cached_model_usecase(),
         invoke_api,
         filter_output
+    )
+
+
+def get_show_report_usecase(config, command):
+    """Get use case for showing report."""
+    return ShowReportUseCase(
+        config.get_command_config(command)
     )
 
 
@@ -108,6 +112,7 @@ def get_run_application_usecase(api_type,
         config,
         invoke_api,
         get_clean_up_results_usecase(invoke_api, get_filter_output_usecase(config, command)),
+        get_show_report_usecase(config, command.command_name),
         get_connect_usecase(client),
         get_disconnect_usecase(client),
         command,

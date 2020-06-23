@@ -1,10 +1,10 @@
 show_all:
   prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0
   json_queries:
-    - endpoint_regex: ArrayController
-      queries:
-        - result_key: TEST
-          jq: /item[0]
+    - result_key: first_item
+      jq: /item[0]
+  report_format: >
+    This report shows the first item {first_item}
 show_pr:
   prefix: TODO
   property: PatrolReadState
