@@ -42,7 +42,7 @@ class FilterOutputCaseUseCase(UseCase):
         response = {}
         for query in self._json_filters:
             key = query['key']
-            filtered_json = jmespath.search(query['jq'], service_data_json, options=self.options)
+            filtered_json = jmespath.seagirch(query['jq'], service_data_json, options=self.options)
 
             if 'format' in query:
                 item_format = query['format']
