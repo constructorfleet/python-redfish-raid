@@ -6,4 +6,4 @@ ply==3.11
 PyYAML==5.3.1
 redfish==2.1.5
 six==1.15.0
-arkho-jsonquery==0.0.5
+jmespath-0.10.0

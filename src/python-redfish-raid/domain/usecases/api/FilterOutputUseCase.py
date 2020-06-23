@@ -1,5 +1,4 @@
-import re
-from jsonquery import processPath
+import jmespath
 
 from framework.usecases.UseCase import UseCase
 
@@ -18,5 +17,5 @@ class FilterOutputCaseUseCase(UseCase):
             return None
         response = {}
         for query in self._json_queries:
-            response[query['result_key']] = processPath(service_data_json, query['jq'])
+            response[query['result_key']] = jmespath.search(query['jq'], service_data_json)
         return response

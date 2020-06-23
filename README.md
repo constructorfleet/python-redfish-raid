@@ -31,14 +31,16 @@ Configuration files are YAML based and can be specified at run time using the `-
 
 #### Structure:
 
-`$COMMAND`: Command you wish to run  
-  `prefix`: Starting API Endpoint for the command  
-  `property`: Optional value that will pull the `Link.property` from the root API response  
-  `recurse`: Use `False` to disable API recursion, `True` to enable full API recursion or an integer to specify the maximum recursion depth  
-  `json_queries`: List of resource endpoints and JSON Query strings to make the output less cluttered  
-    `endpoint`: Regular expression to match resource endpoint
-    `queries`: List of JSON Query and Select statements to display (See https://github.com/arkhotech/json_query for syntax and information)
-    
+```
+$COMMAND: Command you wish to run  
+  prefix: Starting API Endpoint for the command    
+  recurse: Use False to disable API recursion, True to enable full API recursion or an integer to specify the maximum recursion depth  
+  json_queries: List of JMESPath strings to filter the JSON output  
+    key: Resulting JSON key  
+    jq: JMESPath Query string (See http://jmespath.org/ for syntax and information)
+  reportv: Report with placeholders for the result data (Replacers are of the format `{key_name)`
+```
+  
 ## Custom API clients
 
 For extensibility, custom api clients can be added as needed. To add a new API client, create a client in `python-redfish-raid/srrc/data/client` following the existing `RedfishClient.py` client implementation.  
