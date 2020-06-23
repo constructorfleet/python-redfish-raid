@@ -23,6 +23,14 @@ class CustomFunctions(functions.Functions):
     def _func_naturalsize(self, value):
         return humanize.naturalsize(value)
 
+    @functions.signature({'types': ['number']})
+    def _func_fractional(self, value):
+        return humanize.fractional(value)
+
+    @functions.signature({'types': ['number']})
+    def _func_scientific(self, value):
+        return humanize.scientific(value)
+
 
 class FilterOutputCaseUseCase(UseCase):
     """Filter api output."""
