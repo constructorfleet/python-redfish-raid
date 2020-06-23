@@ -1,8 +1,8 @@
+from string import Formatter
+
+import humanize
 import jmespath
 from jmespath import functions
-import humanize
-
-from string import Formatter
 
 from framework.usecases.UseCase import UseCase
 
@@ -42,11 +42,12 @@ class FilterOutputCaseUseCase(UseCase):
         response = {}
         for query in self._json_filters:
             key = query['key']
-            filtered_json = jmespath.seagirch(query['jq'], service_data_json, options=self.options)
+            filtered_json = jmespath.search(query['jq'], service_data_json, options=self.options)
 
             if 'format' in query:
                 item_format = query['format']
-                response[key] = ''.join([self._keyword_formatter.format(item_format, **item) for item in filtered_json])
+                response[key] = ''.join(
+                    [self._keyword_formatter.format(item_format, **item) for item in filtered_json])
             else:
                 response[key] = filtered_json
         return response
