@@ -35,10 +35,10 @@ Configuration files are YAML based and can be specified at run time using the `-
 $COMMAND: Command you wish to run  
   prefix: Starting API Endpoint for the command    
   recurse: Use False to disable API recursion, True to enable full API recursion or an integer to specify the maximum recursion depth  
-  json_queries: List of JMESPath strings to filter the JSON output  
+  json_filters: List of JMESPath strings to filter the JSON output  
     key: Resulting JSON key  
     jq: JMESPath Query string (See http://jmespath.org/ for syntax and information)
-  reportv: Report with placeholders for the result data (Replacers are of the format `{key_name)`
+  report: Report with placeholders for the result data (Replacers are of the format `{key_name)`
 ```
   
 ## Custom API clients
