@@ -35,11 +35,11 @@ show_disks:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
   json_filters:
     - key: alldrives
-      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: CapacityBytes, Model: Model, Name: Name}"
+      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name}"
       transforms:
         CapacityBytes: naturalsize
       # format: |
-      #   [{Name}]    ? ? ? ? {CapacityBytes} GB {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
+      #   [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
     - key: drivecount
       jq: "\"Drives@odata.count\""
     - key: failingcount
