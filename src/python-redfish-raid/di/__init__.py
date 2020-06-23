@@ -61,9 +61,9 @@ def get_api_client_usecase():
 
 def get_filter_output_usecase(config, command):
     """Get use case for filtering api output."""
-    json_queries = config.get_command_config(command).get('json_queries')
-    if json_queries:
-        return FilterOutputCaseUseCase(json_queries)
+    json_filters = config.get_command_config(command).get('json_filters')
+    if json_filters:
+        return FilterOutputCaseUseCase(json_filters)
     return None
 
 
@@ -86,7 +86,7 @@ def get_clean_up_results_usecase(invoke_api, filter_output):
 def get_show_report_usecase(config, command):
     """Get use case for showing report."""
     return ShowReportUseCase(
-        config.get_command_config(command).get('report_format')
+        config.get_command_config(command).get('report')
     )
 
 
