@@ -86,7 +86,7 @@ def get_clean_up_results_usecase(invoke_api, filter_output):
 def get_show_report_usecase(config, command):
     """Get use case for showing report."""
     return ShowReportUseCase(
-        config.get_command_config(command)
+        config.get_command_config(command).get('report_format')
     )
 
 
@@ -112,7 +112,7 @@ def get_run_application_usecase(api_type,
         config,
         invoke_api,
         get_clean_up_results_usecase(invoke_api, get_filter_output_usecase(config, command)),
-        get_show_report_usecase(config, command.command_name),
+        get_show_report_usecase(config, command),
         get_connect_usecase(client),
         get_disconnect_usecase(client),
         command,

@@ -3,8 +3,6 @@ import json
 
 from framework.usecases.UseCase import UseCase
 
-CONF_REPORT_FORMAT = 'report_format'
-
 
 class KWArgFormatter(Formatter):
     def get_value(self, key, args, kwargs):
@@ -31,6 +29,3 @@ class ShowReportUseCase(UseCase):
         if not self._report_format:
             return json.dumps(service_data, indent=2, sort_keys=True)
         return self._keyword_formatter.format(self._report_format, **service_data)
-
-
-

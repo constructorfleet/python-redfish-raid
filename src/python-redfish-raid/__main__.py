@@ -71,11 +71,9 @@ def main():
                                           args,
                                           system=args.system,
                                           api_prefix=args.api_prefix)()
-    json_results = json.dumps(results, indent=2, sort_keys=True)
-    # TODO: Report use case
-    with open('data.json', 'w') as writer:
-        writer.write(json_results)
-    print(json_results)
+    with open('data.out', 'w') as writer:
+        writer.write(results)
+    print(results)
 
 
 if __name__ == '__main__':

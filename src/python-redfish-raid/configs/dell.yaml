@@ -1,16 +1,27 @@
 show_all:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
-  recurse: 0
+  # recurse: 0
   json_queries:
-    - result_key: health
-      jq: /Status/Health
+    - result_key: pcislot
+      jq: /Oem/Dell/DellController/PCISlot
+    - result_key: patrolread
+      jq: /Oem/Dell/DellController/PatrolReadState
     - result_key: firmware_version
       jq: /Oem/Dell/DellController/ControllerFirmwareVersion
     - result_key: controller_model
       jq: /StorageControllers[0]/Model
+    - result_key: memsize
+      jq: /Oem/Dell/DellController/CacheSizeInMB
+  report_format: |
+    Adapter # {pcislot}
+    Adapter Name: {controller_model}
+    Firmware Build Version: {firmware_version}
+    Memory Size: {memsize}
+    Patrol Read State: {patrolread}
+
+
 show_pr:
   prefix: TODO
-  # property: PatrolReadState
   # recurse: True
 show_cc:
   prefix: TODO
@@ -22,12 +33,13 @@ show_enc:
   # recurse: 1
 show_disks:
   prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
-  # property: Drives
+
+  # json_queries:
+  #     - result_key: oem_info
+  #       jq: /Oem/Dell[0:3]
   json_queries:
     - result_key: alldrives
       jq: /Links/Drives
-    - result_key: drives
-      jq: /Linka/Drives/Links/Volumes/OEM
   recurse: 3
 show_logical:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
