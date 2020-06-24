@@ -1,6 +1,6 @@
 show_all:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
-  # recurse: 0
+  recurse: 2
   json_filters:
     - key: pcislot
       jq: Oem.Dell.DellController.PCISlot
@@ -13,7 +13,7 @@ show_all:
     - key: memsize
       jq: Oem.Dell.DellController.CacheSizeInMB
   report: |
-    Adapter # {pcislot}
+    Adapter #: {pcislot}
     Adapter Name: {controller_model}
     Firmware Build Version: {firmware_version}
     Memory Size: {memsize}
@@ -21,70 +21,94 @@ show_all:
 
 
 show_pr:
-  prefix: TODO
-  # recurse: True
+  prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
+  json_filters:
+    - key: pcislot
+      jq: Oem.Dell.DellController.PCISlot
+    - key: patrolread
+      jq: Oem.Dell.DellController.PatrolReadState
+  report: |
+
+    Adapter #: {pcislot}
+    Patrol Read State: {patrolread}
+
 show_cc:
-  prefix: TODO
+  prefix: /redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.1:RAID.Integrated.1-1/Actions
+  recurse: 1
 show_bbu:
   prefix: TODO
 show_enc:
-  # prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
+#  prefix: /redfish/v1/Dell/Chassis/System.Embedded.1/DellEnclosureCollection
+#  prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
+#  prefix: /redfish/v1/Dell/Chassis/System.Embedded.1/DellEnclosure/Enclosure.Internal.0-1:RAID.Integrated.1-1
   prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
-  # recurse: 1
+  json_filters:
+    - key: connector
+      jq: "Oem.Dell.DellEnclosure.Connector"
+    - key: enclosure
+      jq: "Description"
+    - key: health
+      jq: "Status.Health"
+    - key: drivecount
+      jq: "Links.\"Drives@odata.count\""
+    - key: slotcount
+      jq: "Oem.Dell.DellEnclosure.SlotCount"
+##    - key: allenclosures
+##      jq: "Members[*][?(Name == `DellEnclosure`)]{Id: Id, Status: Status.\"Health\", Drives: Links.\"Drives@odata.count\", }"
+#    - key: enclosurecount
+#      jq: "Links\"Members@odata.count\""
+  report: |
+
+    Adapter #: {connector}
+    Enclosure: {enclosure}
+    Status: {health}
+    Slots: {slotcount}
+    Drives: {drivecount}
+#    Fans: 0
+#    Power Supplies: 0
+#    Temperature Sensors: 0
+
+  recurse: 0
+
 show_disks:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
+#  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Drives/DellPhysicalDisk/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1
   json_filters:
     - key: alldrives
-      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name}"
+      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }"
       format: |
        [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
     - key: drivecount
       jq: "\"Drives@odata.count\""
     - key: failingcount
-      jq: "length(Drives[?(Status.Health != `null`)])"
-   report: |
-     All Drives:
-     {alldrives}
+      jq: "length(Drives[?(Status.Health != `OK`)])"
+  report: |
 
-     There ared {drivecount} drives:
+    All Drives:
+    {alldrives}
 
-     Failed or Rebuilding Disks:
-     There are {failingcount} failing drives out of {drivecount}
+    There are {drivecount} drives:
 
-#       BlockSizeBytes
-# CapableSpeedGbs
-# CapacityBytes
-# Description
-# Id
-# Manufacturer
-# MediaType
-# Model
-# Name
-# NegotiatedSpeedGbs
-# PartNumber
-# PredictedMediaLifeLeftPercent
-# Protocol
-# Revision
-# SerialNumber
-# Status
+    Failed or Rebuilding Disks:
+    There are {failingcount} failing drives out of {drivecount}
 
-# BlockSizeBytes
-# CapableSpeedGbs
-# CapacityBytes
-# Description
-# Id
-# Manufacturer
-# MediaType
-# Model
-# Name
-# NegotiatedSpeedGbs
-# PartNumber
-# PredictedMediaLifeLeftPercent
-# Protocol
-# Revision
-# SerialNumber
-# Status
   recurse: 1
 show_logical:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
-  recurse: 2
+#  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Volumes/DellVirtualDiskCollection
+  json_filters:
+    - key: allvolumes
+      jq: "Members[*].Oem.Dell.DellVirtualDisk.{Name: Id, VirtualDiskTargetID: VirtualDiskTargetID, DiskCachePolicy: DiskCachePolicy, ReadCachePolicy: ReadCachePolicy, WriteCachePolicy: WriteCachePolicy, SpanDepth: SpanDepth, SpanLength: SpanLength }"
+      format: |
+
+       [{Name}]
+         Virtual Drive: {VirtualDiskTargetID}
+         Cache Policy: {DiskCachePolicy}
+         Span Depth: {SpanDepth}
+         Span Length: {SpanLength}
+
+  report: |
+
+    {allvolumes}
+
+  recurse: 3
