@@ -1,5 +1,4 @@
 from string import Formatter
-import math
 import humanize
 import jmespath
 from jmespath import functions
@@ -70,7 +69,19 @@ class FilterOutputCaseUseCase(UseCase):
             if 'format' in query:
                 item_format = query['format']
                 response[key] = ''.join(
-                    [self._keyword_formatter.format(item_format, **item) for item in filtered_json])
+                    [self._keyword_formatter.format(item_format, **self._sub_format(query.get('sub_formats'), item)) for item in filtered_json])
             else:
                 response[key] = filtered_json
         return response
+
+    def _sub_format(self, sub_formats, json_item):
+        if sub_formats:
+            for key, sub_format in sub_formats.items():
+                if key not in json_item:
+                    continue
+                json_item[key] = ''.join(
+                    [self._keyword_formatter.format(sub_format, **sub_item)
+                     for sub_item
+                     in json_item[key]])
+
+        return json_item

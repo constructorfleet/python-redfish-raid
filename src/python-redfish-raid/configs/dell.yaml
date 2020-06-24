@@ -126,6 +126,9 @@ show_logical:
         Status: Status.Health
         MemberDisks: "@Redfish.Settings".SettingsObject.Links.Drives[*].{ BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }
         }
+      sub_formats:
+        MemberDisks: |
+          [{Name}] {CapacityBytes} {Manufacturer} {SerialNumber} {Revision}
       format: |
 
         [{Name}]
