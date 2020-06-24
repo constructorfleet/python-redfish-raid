@@ -37,6 +37,8 @@ show_cc:
   recurse: 1
 show_bbu:
   prefix: TODO
+
+
 show_enc:
 #  prefix: /redfish/v1/Dell/Chassis/System.Embedded.1/DellEnclosureCollection
 #  prefix: /redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1
@@ -75,9 +77,9 @@ show_disks:
 #  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Drives/DellPhysicalDisk/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1
   json_filters:
     - key: alldrives
-      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }"
+      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, manufac: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }"
       format: |
-       [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
+       [{Name}]    ? ? ? ? {CapacityBytes} {manufac} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
     - key: drivecount
       jq: "\"Drives@odata.count\""
     - key: failingcount
@@ -98,7 +100,18 @@ show_logical:
 #  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Volumes/DellVirtualDiskCollection
   json_filters:
     - key: allvolumes
-      jq: "Members[*].Oem.Dell.DellVirtualDisk.{Name: Id, VirtualDiskTargetID: VirtualDiskTargetID, DiskCachePolicy: DiskCachePolicy, ReadCachePolicy: ReadCachePolicy, WriteCachePolicy: WriteCachePolicy, SpanDepth: SpanDepth, SpanLength: SpanLength }"
+      jq: >
+        Members[*].{
+        Name: Oem.Dell.DellVirtualDisk.Id,
+        VirtualDiskTargetID: Oem.Dell.DellVirtualDisk.VirtualDiskTargetID,
+        DiskCachePolicy: Oem.Dell.DellVirtualDisk.DiskCachePolicy,
+        ReadCachePolicy: Oem.Dell.DellVirtualDisk.ReadCachePolicy,
+        WriteCachePolicy: Oem.Dell.DellVirtualDisk.WriteCachePolicy,
+        SpanDepth: Oem.Dell.DellVirtualDisk.SpanDepth,
+        SpanLength: Oem.Dell.DellVirtualDisk.SpanLength,
+        Status: Status.Health,
+        memberdisks: Links.Drives[*]."@id"
+        }
       format: |
 
        [{Name}]
@@ -107,8 +120,21 @@ show_logical:
          Span Depth: {SpanDepth}
          Span Length: {SpanLength}
 
+         Status: {Status}
+
+         Physical Disks:
+           {memberdisks}
+
+#    - key: logicaldetails
+#      jq: "Members[*].{ Name: Name, Status: Status.Health, memberdisks: Links.Drives.\"@id\" }"
+#      format: |
+#        [{Name}]
+#            Disks:
+#              {memberdisks}
+#            Health Status: {Status}
   report: |
 
     {allvolumes}
 
+#    {logicaldetails}
   recurse: 3
