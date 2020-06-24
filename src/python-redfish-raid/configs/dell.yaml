@@ -77,9 +77,9 @@ show_disks:
 #  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Drives/DellPhysicalDisk/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1
   json_filters:
     - key: alldrives
-      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, manufac: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }"
+      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }"
       format: |
-       [{Name}]    ? ? ? ? {CapacityBytes} {manufac} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
+       [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
     - key: drivecount
       jq: "\"Drives@odata.count\""
     - key: failingcount
@@ -99,6 +99,20 @@ show_logical:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
 #  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Volumes/DellVirtualDiskCollection
   json_filters:
+#    - key: memberdisks
+#      jq: >
+#        Members[*]."@Redfish.Settings".SettingsObject.Links.Drives[*].{
+#        BlockSizeBytes: BlockSizeBytes,
+#        Revision: Revision,
+#        CapableSpeedGbs: CapableSpeedGbs,
+#        Manufacturer: Manufacturer,
+#        SerialNumber: SerialNumber,
+#        CapacityBytes: naturalsize(CapacityBytes),
+#        Model: Model,
+#        Name: Name
+#        }
+#      format: |
+#        [{Name}] {CapacityBytes} {Manufacturer} {SerialNumber} {Revision}
     - key: allvolumes
       jq: >
         Members[*].{
@@ -109,22 +123,20 @@ show_logical:
         WriteCachePolicy: Oem.Dell.DellVirtualDisk.WriteCachePolicy,
         SpanDepth: Oem.Dell.DellVirtualDisk.SpanDepth,
         SpanLength: Oem.Dell.DellVirtualDisk.SpanLength,
-        Status: Status.Health,
-        memberdisks: Links.Drives[*]
+        Status: Status.Health
+        MemberDisks: "@Redfish.Settings".SettingsObject.Links.Drives[*].{ BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }
         }
       format: |
 
-       [{Name}]
-         Virtual Drive: {VirtualDiskTargetID}
-         Cache Policy: {DiskCachePolicy}
-         Span Depth: {SpanDepth}
-         Span Length: {SpanLength}
+        [{Name}]
+          Virtual Drive: {VirtualDiskTargetID}
+          Cache Policy: {DiskCachePolicy}
+          Span Depth: {SpanDepth}
+          Span Length: {SpanLength}
 
-         Status: {Status}
-
-         Physical Disks:
-           {memberdisks}
-
+          Status: {Status}
+          Members:
+            {MemberDisks}
   report: |
     {allvolumes}
   recurse: 4
