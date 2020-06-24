@@ -73,5 +73,4 @@ class FilterOutputCaseUseCase(UseCase):
                     [self._keyword_formatter.format(item_format, **item) for item in filtered_json])
             else:
                 response[key] = filtered_json
-        service_data_json.update(response)
-        return service_data_json
+        return response
