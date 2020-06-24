@@ -62,15 +62,17 @@ class FilterOutputCaseUseCase(UseCase):
         """Perform Json Query/Select operations against the API responses."""
         if not isinstance(service_data_json, dict):
             return None
-        response = {}
         for query in self._json_filters:
             key = query['key']
             filtered_json = jmespath.search(query['jq'], service_data_json, options=self.options)
+            # Flatten list of lists
+            if any(isinstance(item, list) for item in filtered_json):
+                filtered_json = [item for sublist in filtered_json for item in sublist]
 
             if 'format' in query:
                 item_format = query['format']
-                response[key] = ''.join(
-                    [self._keyword_formatter.format(item_format, **item) for item in filtered_json])
+                service_data_json[key] = ''.join(
+                    [self._keyword_formatter.format(item_format, **dict(**item, **service_data_json)) for item in filtered_json])
             else:
-                response[key] = filtered_json
-        return response
+                service_data_json[key] = filtered_json
+        return service_data_json
