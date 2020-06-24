@@ -14,7 +14,7 @@ from const import (
 
 class Command(Enum):
     """Available commands to execute."""
-    NAGIOS = (COMMAND_NAGIOS, False)
+    NAGIOS = (COMMAND_NAGIOS, True)
     SHOW_ALL = (COMMAND_SHOW_ALL, True)
     SHOW_PATROL_READ = (COMMAND_SHOW_PR, True)
     SHOW_CONSISTENCY_CHECK = (COMMAND_SHOW_CC, True)

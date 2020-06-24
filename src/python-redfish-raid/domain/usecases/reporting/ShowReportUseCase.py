@@ -29,4 +29,4 @@ class ShowReportUseCase(UseCase):
         """Show reports from service data."""
         if not self._report_format:
             return json.dumps(service_data, indent=2, sort_keys=True)
-        return self._keyword_formatter.format(self._report_format, **service_data)
+        return self._keyword_formatter.format(self._report_format, **service_data).replace(r'\t', '  ')

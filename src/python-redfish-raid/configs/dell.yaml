@@ -97,22 +97,7 @@ show_disks:
   recurse: 1
 show_logical:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
-#  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Volumes/DellVirtualDiskCollection
   json_filters:
-#    - key: memberdisks
-#      jq: >
-#        Members[*]."@Redfish.Settings".SettingsObject.Links.Drives[*].{
-#        BlockSizeBytes: BlockSizeBytes,
-#        Revision: Revision,
-#        CapableSpeedGbs: CapableSpeedGbs,
-#        Manufacturer: Manufacturer,
-#        SerialNumber: SerialNumber,
-#        CapacityBytes: naturalsize(CapacityBytes),
-#        Model: Model,
-#        Name: Name
-#        }
-#      format: |
-#        [{Name}] {CapacityBytes} {Manufacturer} {SerialNumber} {Revision}
     - key: allvolumes
       jq: >
         Members[*].{
@@ -128,7 +113,8 @@ show_logical:
         }
       sub_formats:
         MemberDisks: |
-          [{Name}] {CapacityBytes} {Manufacturer} {SerialNumber} {Revision}
+          \t\t[{Name}] {CapacityBytes} {Manufacturer} {Model} {SerialNumber}
+
       format: |
 
         [{Name}]
@@ -139,7 +125,7 @@ show_logical:
 
           Status: {Status}
           Members:
-            {MemberDisks}
+        {MemberDisks}
   report: |
     {allvolumes}
   recurse: 4
