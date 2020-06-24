@@ -110,7 +110,7 @@ show_logical:
         SpanDepth: Oem.Dell.DellVirtualDisk.SpanDepth,
         SpanLength: Oem.Dell.DellVirtualDisk.SpanLength,
         Status: Status.Health,
-        memberdisks: Links.Drives[*]."@id"
+        memberdisks: Links.Drives[*]
         }
       format: |
 
@@ -125,16 +125,6 @@ show_logical:
          Physical Disks:
            {memberdisks}
 
-#    - key: logicaldetails
-#      jq: "Members[*].{ Name: Name, Status: Status.Health, memberdisks: Links.Drives.\"@id\" }"
-#      format: |
-#        [{Name}]
-#            Disks:
-#              {memberdisks}
-#            Health Status: {Status}
   report: |
-
     {allvolumes}
-
-#    {logicaldetails}
-  recurse: 3
+  recurse: 4
