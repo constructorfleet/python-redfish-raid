@@ -1,0 +1,1442 @@
+{
+  "@context": "/redfish/v1/$metadata#Storage.Storage",
+  "@data_type": "#Storage.v1_4_0.Storage",
+  "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1",
+  "Description": "PERC H740P Mini ",
+  "Drives": [
+    {
+      "@context": "/redfish/v1/$metadata#Drive.Drive",
+      "@data_type": "#Drive.v1_3_0.Drive",
+      "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "Actions": {
+        "#Drive.SecureErase": {
+          "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1/Actions/Drive.SecureErase"
+        }
+      },
+      "Assembly": {
+        "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+        "@data_type": "#Assembly.v1_0_0.Assembly",
+        "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly",
+        "Assemblies": [
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.B3",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.B3",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.B3#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.A4",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.A4",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.A4#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.A1",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.A1",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.A1#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.A3",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.A3",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.A3#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.A5",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.A5",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.A5#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.A6",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.A6",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.A6#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.B6",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.B6",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.B6#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.B1",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.B1",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.B1#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.A2",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.A2",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.A2#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.B4",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.B4",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.B4#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.B5",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.B5",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.B5#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/DIMM.Socket.B2",
+            "@odata.etag": "1593122207",
+            "BinaryDataURI": null,
+            "Description": "DDR4 DIMM",
+            "EngineeringChangeLevel": null,
+            "MemberId": "DIMM.Socket.B2",
+            "Model": "DDR4 DIMM",
+            "Name": "DIMM.Socket.B2#FRU",
+            "PartNumber": "M393A4K40BB2-CTD",
+            "Producer": "Samsung",
+            "ProductionDate": "2017-07-17T07:00:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/System.Embedded.1",
+            "@odata.etag": "1593122208",
+            "BinaryDataURI": null,
+            "Description": "SystemPlanar",
+            "EngineeringChangeLevel": "A01",
+            "MemberId": "System.Embedded.1",
+            "Model": "SystemPlanar",
+            "Name": "System.Embedded.1#FRU",
+            "PartNumber": "008R9M",
+            "Producer": "Dell Inc.",
+            "ProductionDate": null,
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/NIC.Integrated.1",
+            "@odata.etag": "1593122208",
+            "BinaryDataURI": null,
+            "Description": "BRCM 10G/GbE 2+2P 57800 rNDC",
+            "EngineeringChangeLevel": "A05",
+            "MemberId": "NIC.Integrated.1",
+            "Model": "BRCM 10G/GbE 2+2P 57800 rNDC",
+            "Name": "NIC.Integrated.1#FRU",
+            "PartNumber": "0165T0",
+            "Producer": "Dell",
+            "ProductionDate": "2017-06-07T02:09:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/RAID.Integrated.1-1",
+            "@odata.etag": "1593122208",
+            "BinaryDataURI": null,
+            "Description": "Dell Storage Cntlr. H740P - Mini",
+            "EngineeringChangeLevel": "A01",
+            "MemberId": "RAID.Integrated.1-1",
+            "Model": "Dell Storage Cntlr. H740P - Mini",
+            "Name": "RAID.Integrated.1-1#FRU",
+            "PartNumber": "05FMY4",
+            "Producer": "Dell",
+            "ProductionDate": "2017-05-07T13:41:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/Enclosure.Internal.0-1",
+            "@odata.etag": "1593122208",
+            "BinaryDataURI": null,
+            "Description": "DRIVE BACKPLANE",
+            "EngineeringChangeLevel": "A00",
+            "MemberId": "Enclosure.Internal.0-1",
+            "Model": "DRIVE BACKPLANE",
+            "Name": "Enclosure.Internal.0-1#FRU",
+            "PartNumber": "0Y0DFT",
+            "Producer": "Dell",
+            "ProductionDate": "2017-07-19T17:52:00Z",
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/PSU.Slot.1",
+            "@odata.etag": "1593122338",
+            "BinaryDataURI": null,
+            "Description": "PWR SPLY,750W,RDNT,LTON",
+            "EngineeringChangeLevel": "A00",
+            "MemberId": "PSU.Slot.1",
+            "Model": "PWR SPLY,750W,RDNT,LTON",
+            "Name": "PSU.Slot.1#FRU",
+            "PartNumber": "0W8R3C",
+            "Producer": "Dell",
+            "ProductionDate": null,
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          },
+          {
+            "@context": "/redfish/v1/$metadata#Assembly.Assembly",
+            "@data_type": "#Assembly.v1_0_0.AssemblyData",
+            "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly/PSU.Slot.2",
+            "@odata.etag": "1593122338",
+            "BinaryDataURI": null,
+            "Description": "PWR SPLY,750W,RDNT,LTON",
+            "EngineeringChangeLevel": "A00",
+            "MemberId": "PSU.Slot.2",
+            "Model": "PWR SPLY,750W,RDNT,LTON",
+            "Name": "PSU.Slot.2#FRU",
+            "PartNumber": "0W8R3C",
+            "Producer": "Dell",
+            "ProductionDate": null,
+            "SKU": null,
+            "SparePartNumber": null,
+            "Vendor": "DELL",
+            "Version": null
+          }
+        ],
+        "Assemblies@odata.count": 18,
+        "Id": "PCIE Assembly",
+        "Name": "Assembly"
+      },
+      "BlockSizeBytes": 512,
+      "CapableSpeedGbs": 6,
+      "CapacityBytes": 119453777920,
+      "Description": "Solid State Disk 0:1:0",
+      "EncryptionAbility": "None",
+      "EncryptionStatus": "Unencrypted",
+      "FailurePredicted": false,
+      "HotspareType": "None",
+      "Id": "Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "Identifiers": [
+        {
+          "DurableName": "500056B322CF93C0",
+          "DurableNameFormat": "NAA"
+        }
+      ],
+      "Links": {
+        "Chassis": {
+          "@Redfish.Settings": {
+            "@odata.context": "/redfish/v1/$metadata#Settings.Settings",
+            "@odata.type": "#Settings.v1_1_0.Settings",
+            "SettingsObject": {
+              "@context": "/redfish/v1/$metadata#Chassis.Chassis",
+              "@data_type": "#Chassis.v1_6_0.Chassis",
+              "@id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1/Settings",
+              "Actions": {},
+              "AssetTag": "",
+              "ChassisType": "Enclosure",
+              "Description": "BP14G+EXP 0:1",
+              "Id": "Enclosure.Internal.0-1:RAID.Integrated.1-1",
+              "Links": {
+                "ContainedBy": null,
+                "Contains": [],
+                "Contains@odata.count": 0,
+                "Drives": [
+                  {
+                    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                  },
+                  null,
+                  null
+                ],
+                "Drives@odata.count": 3,
+                "ManagedBy": [
+                  null
+                ],
+                "ManagedBy@odata.count": 1,
+                "PCIeDevices": [],
+                "PCIeDevices@odata.count": 0,
+                "Storage": [
+                  {
+                    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1"
+                  }
+                ],
+                "Storage@odata.count": 1
+              },
+              "Manufacturer": null,
+              "Model": "BP14G+EXP 0:1",
+              "Name": "BP14G+EXP 0:1",
+              "PartNumber": null,
+              "PowerState": "On",
+              "SKU": "",
+              "SerialNumber": null,
+              "Status": {
+                "Health": "OK",
+                "HealthRollup": "OK",
+                "State": "Enabled"
+              }
+            },
+            "SupportedApplyTimes": [
+              "Immediate",
+              "OnReset",
+              "AtMaintenanceWindowStart",
+              "InMaintenanceWindowOnReset"
+            ]
+          },
+          "@context": "/redfish/v1/$metadata#Chassis.Chassis",
+          "@data_type": "#Chassis.v1_6_0.Chassis",
+          "@id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1",
+          "Actions": {},
+          "AssetTag": "",
+          "ChassisType": "Enclosure",
+          "Description": "BP14G+EXP 0:1",
+          "Id": "Enclosure.Internal.0-1:RAID.Integrated.1-1",
+          "Links": {
+            "ContainedBy": {
+              "@context": "/redfish/v1/$metadata#Chassis.Chassis",
+              "@data_type": "#Chassis.v1_6_0.Chassis",
+              "@id": "/redfish/v1/Chassis/System.Embedded.1",
+              "Actions": {
+                "#Chassis.Reset": {
+                  "ResetType@Redfish.AllowableValues": [
+                    "On",
+                    "ForceOff"
+                  ],
+                  "target": "/redfish/v1/Chassis/System.Embedded.1/Actions/Chassis.Reset"
+                }
+              },
+              "Assembly": null,
+              "AssetTag": null,
+              "ChassisType": "RackMount",
+              "Description": "It represents the properties for physical components for any system.It represent racks, rackmount servers, blades, standalone, modular systems,enclosures, and all other containers.The non-cpu/device centric parts of the schema are all accessed either directly or indirectly through this resource.",
+              "Id": "System.Embedded.1",
+              "IndicatorLED": "Off",
+              "Links": {
+                "ComputerSystems": [
+                  null
+                ],
+                "ComputerSystems@odata.count": 1,
+                "Contains": [
+                  {
+                    "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                  },
+                  null
+                ],
+                "Contains@odata.count": 2,
+                "CooledBy": [
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "CooledBy@odata.count": 16,
+                "Drives": [],
+                "Drives@odata.count": 0,
+                "ManagedBy": [
+                  null
+                ],
+                "ManagedBy@odata.count": 1,
+                "ManagersInChassis": [
+                  null
+                ],
+                "ManagersInChassis@odata.count": 1,
+                "PCIeDevices": [
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "PCIeDevices@odata.count": 8,
+                "PoweredBy": [
+                  null,
+                  null
+                ],
+                "PoweredBy@odata.count": 2,
+                "Storage": [
+                  {
+                    "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1"
+                  },
+                  null,
+                  null,
+                  null
+                ],
+                "Storage@odata.count": 4
+              },
+              "Location": {
+                "Info": ";;;;1",
+                "InfoFormat": "DataCenter;RoomName;Aisle;RackName;RackSlot",
+                "Placement": {
+                  "Rack": "",
+                  "Row": ""
+                },
+                "PostalAddress": {
+                  "Building": "",
+                  "Room": ""
+                }
+              },
+              "Manufacturer": "Dell Inc.",
+              "Model": "PowerEdge R640",
+              "Name": "Computer System Chassis",
+              "NetworkAdapters": null,
+              "PartNumber": "008R9MA01",
+              "PhysicalSecurity": {
+                "IntrusionSensor": "Normal",
+                "IntrusionSensorNumber": 115,
+                "IntrusionSensorReArm": "Manual"
+              },
+              "Power": null,
+              "PowerState": "On",
+              "SKU": "JLG7HK2",
+              "SerialNumber": "CNIVC0076R0302",
+              "Status": {
+                "Health": "OK",
+                "HealthRollup": "OK",
+                "State": "Enabled"
+              },
+              "Thermal": null
+            },
+            "Contains": [],
+            "Contains@odata.count": 0,
+            "Drives": [
+              {
+                "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+              },
+              {
+                "@context": "/redfish/v1/$metadata#Drive.Drive",
+                "@data_type": "#Drive.v1_3_0.Drive",
+                "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+                "Actions": {
+                  "#Drive.SecureErase": {
+                    "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1/Actions/Drive.SecureErase"
+                  }
+                },
+                "Assembly": null,
+                "BlockSizeBytes": 512,
+                "CapableSpeedGbs": 6,
+                "CapacityBytes": 119453777920,
+                "Description": "Solid State Disk 0:1:1",
+                "EncryptionAbility": "None",
+                "EncryptionStatus": "Unencrypted",
+                "FailurePredicted": false,
+                "HotspareType": "None",
+                "Id": "Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+                "Identifiers": [
+                  {
+                    "DurableName": "500056B322CF93C1",
+                    "DurableNameFormat": "NAA"
+                  }
+                ],
+                "Links": {
+                  "Chassis": {
+                    "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                  },
+                  "Volumes": [
+                    null
+                  ],
+                  "Volumes@odata.count": 1
+                },
+                "Location": [],
+                "Manufacturer": "INTEL",
+                "MediaType": "SSD",
+                "Model": "SSDSC2BB120G7R",
+                "Name": "Solid State Disk 0:1:1",
+                "NegotiatedSpeedGbs": 6,
+                "Oem": {
+                  "Dell": {
+                    "DellPhysicalDisk": null
+                  }
+                },
+                "Operations": [],
+                "PartNumber": "TW0394XTITT0076I0CP8A00",
+                "PredictedMediaLifeLeftPercent": 100,
+                "Protocol": "SATA",
+                "Revision": "N201DL42",
+                "RotationSpeedRPM": 1,
+                "SerialNumber": "PHDV7215088V150MGN",
+                "Status": {
+                  "Health": "OK",
+                  "HealthRollup": "OK",
+                  "State": "Enabled"
+                }
+              },
+              {
+                "@context": "/redfish/v1/$metadata#Drive.Drive",
+                "@data_type": "#Drive.v1_3_0.Drive",
+                "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+                "Actions": {
+                  "#Drive.SecureErase": {
+                    "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1/Actions/Drive.SecureErase"
+                  }
+                },
+                "Assembly": null,
+                "BlockSizeBytes": 512,
+                "CapableSpeedGbs": 12,
+                "CapacityBytes": 959656755200,
+                "Description": "Solid State Disk 0:1:6",
+                "EncryptionAbility": "None",
+                "EncryptionStatus": "Unencrypted",
+                "FailurePredicted": false,
+                "HotspareType": "None",
+                "Id": "Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+                "Identifiers": [
+                  {
+                    "DurableName": "50000397DC8B3216",
+                    "DurableNameFormat": "NAA"
+                  }
+                ],
+                "Links": {
+                  "Chassis": {
+                    "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                  },
+                  "Volumes": [
+                    null
+                  ],
+                  "Volumes@odata.count": 1
+                },
+                "Location": [],
+                "Manufacturer": "TOSHIBA",
+                "MediaType": "SSD",
+                "Model": "PX05SVB096Y",
+                "Name": "Solid State Disk 0:1:6",
+                "NegotiatedSpeedGbs": 12,
+                "Oem": {
+                  "Dell": {
+                    "DellPhysicalDisk": null
+                  }
+                },
+                "Operations": [],
+                "PartNumber": "PH0503M7TB30076L09WLA00",
+                "PredictedMediaLifeLeftPercent": 100,
+                "Protocol": "SAS",
+                "Revision": "AS03",
+                "RotationSpeedRPM": 1,
+                "SerialNumber": "67L0A184TEZE",
+                "Status": {
+                  "Health": "OK",
+                  "HealthRollup": "OK",
+                  "State": "Enabled"
+                }
+              }
+            ],
+            "Drives@odata.count": 3,
+            "ManagedBy": [
+              {
+                "@context": "/redfish/v1/$metadata#Manager.Manager",
+                "@data_type": "#Manager.v1_3_3.Manager",
+                "@id": "/redfish/v1/Managers/iDRAC.Embedded.1",
+                "Actions": {
+                  "#Manager.Reset": {
+                    "ResetType@Redfish.AllowableValues": [
+                      "GracefulRestart"
+                    ],
+                    "target": "/redfish/v1/Managers/iDRAC.Embedded.1/Actions/Manager.Reset"
+                  },
+                  "Oem": {
+                    "DellManager.v1_0_0#DellManager.ResetToDefaults": {
+                      "ResetType@Redfish.AllowableValues": [
+                        "All",
+                        "ResetAllWithRootDefaults",
+                        "Default"
+                      ],
+                      "target": "/redfish/v1/Managers/iDRAC.Embedded.1/Actions/Oem/DellManager.ResetToDefaults"
+                    },
+                    "OemManager.v1_0_0#OemManager.ExportSystemConfiguration": {
+                      "ExportFormat@Redfish.AllowableValues": [
+                        "XML",
+                        "JSON"
+                      ],
+                      "ExportUse@Redfish.AllowableValues": [
+                        "Default",
+                        "Clone",
+                        "Replace"
+                      ],
+                      "IncludeInExport@Redfish.AllowableValues": [
+                        "Default",
+                        "IncludeReadOnly",
+                        "IncludePasswordHashValues",
+                        "IncludeReadOnly,IncludePasswordHashValues"
+                      ],
+                      "ShareParameters": {
+                        "IgnoreCertificateWarning@Redfish.AllowableValues": [
+                          "Disabled",
+                          "Enabled"
+                        ],
+                        "ProxySupport@Redfish.AllowableValues": [
+                          "Disabled",
+                          "EnabledProxyDefault",
+                          "Enabled"
+                        ],
+                        "ProxyType@Redfish.AllowableValues": [
+                          "HTTP",
+                          "SOCKS4"
+                        ],
+                        "ShareType@Redfish.AllowableValues": [
+                          "LOCAL",
+                          "NFS",
+                          "CIFS",
+                          "HTTP",
+                          "HTTPS"
+                        ],
+                        "Target@Redfish.AllowableValues": [
+                          "ALL",
+                          "IDRAC",
+                          "BIOS",
+                          "NIC",
+                          "RAID"
+                        ]
+                      },
+                      "target": "/redfish/v1/Managers/iDRAC.Embedded.1/Actions/Oem/EID_674_Manager.ExportSystemConfiguration"
+                    },
+                    "OemManager.v1_0_0#OemManager.ImportSystemConfiguration": {
+                      "HostPowerState@Redfish.AllowableValues": [
+                        "On",
+                        "Off"
+                      ],
+                      "ImportSystemConfiguration@Redfish.AllowableValues": [
+                        "TimeToWait",
+                        "ImportBuffer"
+                      ],
+                      "ShareParameters": {
+                        "IgnoreCertificateWarning@Redfish.AllowableValues": [
+                          "Disabled",
+                          "Enabled"
+                        ],
+                        "ProxySupport@Redfish.AllowableValues": [
+                          "Disabled",
+                          "EnabledProxyDefault",
+                          "Enabled"
+                        ],
+                        "ProxyType@Redfish.AllowableValues": [
+                          "HTTP",
+                          "SOCKS4"
+                        ],
+                        "ShareType@Redfish.AllowableValues": [
+                          "LOCAL",
+                          "NFS",
+                          "CIFS",
+                          "HTTP",
+                          "HTTPS"
+                        ],
+                        "Target@Redfish.AllowableValues": [
+                          "ALL",
+                          "IDRAC",
+                          "BIOS",
+                          "NIC",
+                          "RAID"
+                        ]
+                      },
+                      "ShutdownType@Redfish.AllowableValues": [
+                        "Graceful",
+                        "Forced",
+                        "NoReboot"
+                      ],
+                      "target": "/redfish/v1/Managers/iDRAC.Embedded.1/Actions/Oem/EID_674_Manager.ImportSystemConfiguration"
+                    },
+                    "OemManager.v1_0_0#OemManager.ImportSystemConfigurationPreview": {
+                      "ImportSystemConfigurationPreview@Redfish.AllowableValues": [
+                        "ImportBuffer"
+                      ],
+                      "ShareParameters": {
+                        "IgnoreCertificateWarning@Redfish.AllowableValues": [
+                          "Disabled",
+                          "Enabled"
+                        ],
+                        "ProxySupport@Redfish.AllowableValues": [
+                          "Disabled",
+                          "EnabledProxyDefault",
+                          "Enabled"
+                        ],
+                        "ProxyType@Redfish.AllowableValues": [
+                          "HTTP",
+                          "SOCKS4"
+                        ],
+                        "ShareType@Redfish.AllowableValues": [
+                          "LOCAL",
+                          "NFS",
+                          "CIFS",
+                          "HTTP",
+                          "HTTPS"
+                        ],
+                        "Target@Redfish.AllowableValues": [
+                          "ALL"
+                        ]
+                      },
+                      "target": "/redfish/v1/Managers/iDRAC.Embedded.1/Actions/Oem/EID_674_Manager.ImportSystemConfigurationPreview"
+                    }
+                  }
+                },
+                "CommandShell": {
+                  "ConnectTypesSupported": [
+                    "SSH",
+                    "Telnet",
+                    "IPMI"
+                  ],
+                  "ConnectTypesSupported@odata.count": 3,
+                  "MaxConcurrentSessions": 5,
+                  "ServiceEnabled": true
+                },
+                "DateTime": "2020-06-26T02:26:44-05:00",
+                "DateTimeLocalOffset": "-05:00",
+                "Description": "BMC",
+                "EthernetInterfaces": null,
+                "FirmwareVersion": "3.30.30.30",
+                "GraphicalConsole": {
+                  "ConnectTypesSupported": [
+                    "KVMIP"
+                  ],
+                  "ConnectTypesSupported@odata.count": 1,
+                  "MaxConcurrentSessions": 6,
+                  "ServiceEnabled": true
+                },
+                "HostInterfaces": null,
+                "Id": "iDRAC.Embedded.1",
+                "Links": {
+                  "ManagerForChassis": [
+                    null
+                  ],
+                  "ManagerForChassis@odata.count": 1,
+                  "ManagerForServers": [
+                    null
+                  ],
+                  "ManagerForServers@odata.count": 1,
+                  "ManagerInChassis": null,
+                  "Oem": {
+                    "Dell": {
+                      "DellAttributes": [
+                        null,
+                        null,
+                        null
+                      ],
+                      "DellAttributes@odata.count": 3,
+                      "DellJobService": null,
+                      "DellLCService": null,
+                      "DellLicenseCollection": null,
+                      "DellLicenseManagementService": null,
+                      "DellPersistentStorageService": null,
+                      "DellSwitchConnectionCollection": null,
+                      "DelliDRACCardService": null,
+                      "DellvFlashCollection": null,
+                      "Jobs": null
+                    }
+                  }
+                },
+                "LogServices": null,
+                "ManagerType": "BMC",
+                "Model": "14G Monolithic",
+                "Name": "Manager",
+                "NetworkProtocol": null,
+                "Oem": {
+                  "Dell": {
+                    "DelliDRACCard": null
+                  }
+                },
+                "PowerState": "On",
+                "Redundancy": [],
+                "Redundancy@odata.count": 0,
+                "SerialConsole": {
+                  "ConnectTypesSupported": [],
+                  "ConnectTypesSupported@odata.count": 0,
+                  "MaxConcurrentSessions": 0,
+                  "ServiceEnabled": false
+                },
+                "SerialInterfaces": null,
+                "Status": {
+                  "Health": "OK",
+                  "State": "Enabled"
+                },
+                "UUID": "324b484f-c0ca-3780-4710-004c4c4c4544",
+                "VirtualMedia": null
+              }
+            ],
+            "ManagedBy@odata.count": 1,
+            "PCIeDevices": [],
+            "PCIeDevices@odata.count": 0,
+            "Storage": [
+              {
+                "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1"
+              }
+            ],
+            "Storage@odata.count": 1
+          },
+          "Manufacturer": null,
+          "Model": "BP14G+EXP 0:1",
+          "Name": "BP14G+EXP 0:1",
+          "Oem": {
+            "Dell": {
+              "DellEnclosure": {
+                "@context": "/redfish/v1/$metadata#DellEnclosure.DellEnclosure",
+                "@data_type": "#DellEnclosure.v1_0_0.DellEnclosure",
+                "@id": "/redfish/v1/Dell/Chassis/System.Embedded.1/DellEnclosure/Enclosure.Internal.0-1:RAID.Integrated.1-1",
+                "Connector": 0,
+                "Description": "An instance of DellEnclosure will have storage enclosure specific data.",
+                "Id": "Enclosure.Internal.0-1:RAID.Integrated.1-1",
+                "Links": null,
+                "Name": "DellEnclosure",
+                "ServiceTag": null,
+                "SlotCount": 10,
+                "Version": "2.15",
+                "WiredOrder": 1
+              }
+            }
+          },
+          "PartNumber": null,
+          "PowerState": "On",
+          "SKU": "",
+          "SerialNumber": null,
+          "Status": {
+            "Health": "OK",
+            "HealthRollup": "OK",
+            "State": "Enabled"
+          }
+        },
+        "Volumes": [
+          {
+            "@Redfish.Settings": {
+              "@odata.context": "/redfish/v1/$metadata#Settings.Settings",
+              "@odata.type": "#Settings.v1_1_0.Settings",
+              "SettingsObject": {
+                "@context": "/redfish/v1/$metadata#Volume.Volume",
+                "@data_type": "#Volume.v1_0_3.Volume",
+                "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.0:RAID.Integrated.1-1/Settings",
+                "Actions": {},
+                "BlockSizeBytes": 512,
+                "CapacityBytes": 119453777920,
+                "Description": "GenericR1_0",
+                "Encrypted": false,
+                "EncryptionTypes": [
+                  "NativeDriveEncryption"
+                ],
+                "Id": "Disk.Virtual.0:RAID.Integrated.1-1",
+                "Identifiers": [],
+                "Links": {
+                  "Drives": [
+                    {
+                      "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                    },
+                    null
+                  ],
+                  "Drives@odata.count": 2
+                },
+                "Name": "GenericR1_0",
+                "Operations": [],
+                "OptimumIOSizeBytes": 262144,
+                "Status": {
+                  "Health": "OK",
+                  "HealthRollup": "OK",
+                  "State": "Enabled"
+                },
+                "VolumeType": "Mirrored"
+              },
+              "SupportedApplyTimes": [
+                "Immediate",
+                "OnReset",
+                "AtMaintenanceWindowStart",
+                "InMaintenanceWindowOnReset"
+              ]
+            },
+            "@context": "/redfish/v1/$metadata#Volume.Volume",
+            "@data_type": "#Volume.v1_0_3.Volume",
+            "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.0:RAID.Integrated.1-1",
+            "Actions": {
+              "#Volume.CheckConsistency": {
+                "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.0:RAID.Integrated.1-1/Actions/Volume.CheckConsistency"
+              },
+              "#Volume.Initialize": {
+                "InitializeType@Redfish.AllowableValues": [
+                  "Fast",
+                  "Slow"
+                ],
+                "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.0:RAID.Integrated.1-1/Actions/Volume.Initialize"
+              }
+            },
+            "BlockSizeBytes": 512,
+            "CapacityBytes": 119453777920,
+            "Description": "GenericR1_0",
+            "Encrypted": false,
+            "EncryptionTypes": [
+              "NativeDriveEncryption"
+            ],
+            "Id": "Disk.Virtual.0:RAID.Integrated.1-1",
+            "Identifiers": [],
+            "Links": {
+              "Drives": [
+                {
+                  "@odata.id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                },
+                {
+                  "@data_type": "See Referenced ID",
+                  "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+                }
+              ],
+              "Drives@odata.count": 2
+            },
+            "Name": "GenericR1_0",
+            "Oem": {
+              "Dell": {
+                "DellVirtualDisk": {
+                  "@context": "/redfish/v1/$metadata#DellVirtualDisk.DellVirtualDisk",
+                  "@data_type": "#DellVirtualDisk.v1_0_0.DellVirtualDisk",
+                  "@id": "/redfish/v1/Dell/Systems/System.Embedded.1/Storage/Volumes/DellVirtualDisk/Disk.Virtual.0:RAID.Integrated.1-1",
+                  "BusProtocol": "SATA",
+                  "Cachecade": "NonCachecadeVD",
+                  "Description": "An instance of DellVirtualDisk will have data specific to the Virtual Disks in the system.",
+                  "DiskCachePolicy": "Default",
+                  "Id": "Disk.Virtual.0:RAID.Integrated.1-1",
+                  "LockStatus": "Unlocked",
+                  "MediaType": "SolidStateDrive",
+                  "Name": "DellVirtualDisk",
+                  "ReadCachePolicy": "NoReadAhead",
+                  "SpanDepth": 1,
+                  "SpanLength": 2,
+                  "VirtualDiskTargetID": 0,
+                  "WriteCachePolicy": "WriteThrough"
+                }
+              }
+            },
+            "Operations": [],
+            "OptimumIOSizeBytes": 262144,
+            "Status": {
+              "Health": "OK",
+              "HealthRollup": "OK",
+              "State": "Enabled"
+            },
+            "VolumeType": "Mirrored"
+          }
+        ],
+        "Volumes@odata.count": 1
+      },
+      "Location": [],
+      "Manufacturer": "INTEL",
+      "MediaType": "SSD",
+      "Model": "SSDSC2BB120G7R",
+      "Name": "Solid State Disk 0:1:0",
+      "NegotiatedSpeedGbs": 6,
+      "Oem": {
+        "Dell": {
+          "DellPhysicalDisk": {
+            "@context": "/redfish/v1/$metadata#DellPhysicalDisk.DellPhysicalDisk",
+            "@data_type": "#DellPhysicalDisk.v1_0_0.DellPhysicalDisk",
+            "@id": "/redfish/v1/Dell/Systems/System.Embedded.1/Storage/Drives/DellPhysicalDisk/Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+            "Connector": 0,
+            "Description": "An instance of DellPhysicalDisk will have Physical Disk specific data.",
+            "DriveFormFactor": "2.5Inch",
+            "FreeSizeInBytes": 0,
+            "Id": "Disk.Bay.0:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+            "ManufacturingDay": 0,
+            "ManufacturingWeek": 0,
+            "ManufacturingYear": 0,
+            "Name": "DellPhysicalDisk",
+            "PPID": "TW0394XTITT0076I0CL6A00",
+            "PredictiveFailureState": "SmartAlertAbsent",
+            "RaidStatus": "Online",
+            "SASAddress": "500056B322CF93C0",
+            "Slot": 0,
+            "UsedSizeInBytes": 119453777920
+          }
+        }
+      },
+      "Operations": [],
+      "PartNumber": "TW0394XTITT0076I0CL6A00",
+      "PredictedMediaLifeLeftPercent": 100,
+      "Protocol": "SATA",
+      "Revision": "N201DL42",
+      "RotationSpeedRPM": 1,
+      "SerialNumber": "PHDV721600AY150MGN",
+      "Status": {
+        "Health": "OK",
+        "HealthRollup": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@context": "/redfish/v1/$metadata#Drive.Drive",
+      "@data_type": "#Drive.v1_3_0.Drive",
+      "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "Actions": {
+        "#Drive.SecureErase": {
+          "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1/Actions/Drive.SecureErase"
+        }
+      },
+      "Assembly": null,
+      "BlockSizeBytes": 512,
+      "CapableSpeedGbs": 6,
+      "CapacityBytes": 119453777920,
+      "Description": "Solid State Disk 0:1:1",
+      "EncryptionAbility": "None",
+      "EncryptionStatus": "Unencrypted",
+      "FailurePredicted": false,
+      "HotspareType": "None",
+      "Id": "Disk.Bay.1:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "Identifiers": [
+        {
+          "DurableName": "500056B322CF93C1",
+          "DurableNameFormat": "NAA"
+        }
+      ],
+      "Links": {
+        "Chassis": {
+          "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1"
+        },
+        "Volumes": [
+          null
+        ],
+        "Volumes@odata.count": 1
+      },
+      "Location": [],
+      "Manufacturer": "INTEL",
+      "MediaType": "SSD",
+      "Model": "SSDSC2BB120G7R",
+      "Name": "Solid State Disk 0:1:1",
+      "NegotiatedSpeedGbs": 6,
+      "Oem": {
+        "Dell": {
+          "DellPhysicalDisk": null
+        }
+      },
+      "Operations": [],
+      "PartNumber": "TW0394XTITT0076I0CP8A00",
+      "PredictedMediaLifeLeftPercent": 100,
+      "Protocol": "SATA",
+      "Revision": "N201DL42",
+      "RotationSpeedRPM": 1,
+      "SerialNumber": "PHDV7215088V150MGN",
+      "Status": {
+        "Health": "OK",
+        "HealthRollup": "OK",
+        "State": "Enabled"
+      }
+    },
+    {
+      "@context": "/redfish/v1/$metadata#Drive.Drive",
+      "@data_type": "#Drive.v1_3_0.Drive",
+      "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "Actions": {
+        "#Drive.SecureErase": {
+          "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1/Actions/Drive.SecureErase"
+        }
+      },
+      "Assembly": null,
+      "BlockSizeBytes": 512,
+      "CapableSpeedGbs": 12,
+      "CapacityBytes": 959656755200,
+      "Description": "Solid State Disk 0:1:6",
+      "EncryptionAbility": "None",
+      "EncryptionStatus": "Unencrypted",
+      "FailurePredicted": false,
+      "HotspareType": "None",
+      "Id": "Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1",
+      "Identifiers": [
+        {
+          "DurableName": "50000397DC8B3216",
+          "DurableNameFormat": "NAA"
+        }
+      ],
+      "Links": {
+        "Chassis": {
+          "@odata.id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1"
+        },
+        "Volumes": [
+          null
+        ],
+        "Volumes@odata.count": 1
+      },
+      "Location": [],
+      "Manufacturer": "TOSHIBA",
+      "MediaType": "SSD",
+      "Model": "PX05SVB096Y",
+      "Name": "Solid State Disk 0:1:6",
+      "NegotiatedSpeedGbs": 12,
+      "Oem": {
+        "Dell": {
+          "DellPhysicalDisk": null
+        }
+      },
+      "Operations": [],
+      "PartNumber": "PH0503M7TB30076L09WLA00",
+      "PredictedMediaLifeLeftPercent": 100,
+      "Protocol": "SAS",
+      "Revision": "AS03",
+      "RotationSpeedRPM": 1,
+      "SerialNumber": "67L0A184TEZE",
+      "Status": {
+        "Health": "OK",
+        "HealthRollup": "OK",
+        "State": "Enabled"
+      }
+    }
+  ],
+  "Drives@odata.count": 3,
+  "Id": "RAID.Integrated.1-1",
+  "Links": {
+    "Enclosures": [
+      {
+        "@data_type": "See Referenced ID",
+        "@id": "/redfish/v1/Chassis/Enclosure.Internal.0-1:RAID.Integrated.1-1"
+      },
+      {
+        "@data_type": "See Referenced ID",
+        "@id": "/redfish/v1/Chassis/System.Embedded.1"
+      }
+    ],
+    "Enclosures@odata.count": 2
+  },
+  "Name": "PERC H740P Mini ",
+  "Oem": {
+    "Dell": {
+      "DellController": {
+        "@context": "/redfish/v1/$metadata#DellController.DellController",
+        "@data_type": "#DellController.v1_0_0.DellController",
+        "@id": "/redfish/v1/Dell/Systems/System.Emdedded.1/Storage/DellController/RAID.Integrated.1-1",
+        "CacheSizeInMB": 4096,
+        "CachecadeCapability": "NotSupported",
+        "ControllerFirmwareVersion": "50.0.1-0537",
+        "Description": "An instance of DellController will have RAID Controller specific data.",
+        "DeviceCardSlotType": "Unknown",
+        "DriverVersion": "--NA--",
+        "EncryptionCapability": "LocalKeyManagementCapable",
+        "EncryptionMode": "None",
+        "Id": "RAID.Integrated.1-1",
+        "Name": "DellController",
+        "PCISlot": 0,
+        "PatrolReadState": "Stopped",
+        "RollupStatus": "OK",
+        "SecurityStatus": "EncryptionCapable",
+        "SlicedVDCapability": "Supported"
+      }
+    }
+  },
+  "Status": {
+    "Health": "OK",
+    "HealthRollup": "OK",
+    "State": "Enabled"
+  },
+  "StorageControllers": [
+    {
+      "@context": "/redfish/v1/$metadata#Storage.Storage",
+      "@data_type": "#Storage.v1_4_0.StorageController",
+      "@id": "/redfish/v1/Systems/System.Embedded.1/StorageControllers/RAID.Integrated.1-1",
+      "Assembly": {
+        "@data_type": "See Referenced ID",
+        "@id": "/redfish/v1/Chassis/System.Embedded.1/Assembly"
+      },
+      "FirmwareVersion": "50.0.1-0537",
+      "Identifiers": [
+        {
+          "DurableName": "51866DA0BC6CA400",
+          "DurableNameFormat": "NAA"
+        }
+      ],
+      "Links": {},
+      "Manufacturer": "DELL",
+      "MemberId": "RAID.Integrated.1-1",
+      "Model": "PERC H740P Mini ",
+      "Name": "PERC H740P Mini ",
+      "SpeedGbps": 12,
+      "Status": {
+        "Health": "OK",
+        "HealthRollup": "OK",
+        "State": "Enabled"
+      },
+      "SupportedControllerProtocols": [
+        "PCIe"
+      ],
+      "SupportedDeviceProtocols": [
+        "SAS",
+        "SATA"
+      ]
+    }
+  ],
+  "StorageControllers@odata.count": 1,
+  "Volumes": {
+    "@context": "/redfish/v1/$metadata#VolumeCollection.VolumeCollection",
+    "@data_type": "#VolumeCollection.VolumeCollection",
+    "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes",
+    "Description": "Collection Of Volume",
+    "Members": [
+      {
+        "@data_type": "See Referenced ID",
+        "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.0:RAID.Integrated.1-1"
+      },
+      {
+        "@Redfish.Settings": {
+          "@odata.context": "/redfish/v1/$metadata#Settings.Settings",
+          "@odata.type": "#Settings.v1_1_0.Settings",
+          "SettingsObject": {
+            "@context": "/redfish/v1/$metadata#Volume.Volume",
+            "@data_type": "#Volume.v1_0_3.Volume",
+            "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.1:RAID.Integrated.1-1/Settings",
+            "Actions": {},
+            "BlockSizeBytes": 512,
+            "CapacityBytes": 959656755200,
+            "Description": "GenericR0_1",
+            "Encrypted": false,
+            "EncryptionTypes": [
+              "NativeDriveEncryption"
+            ],
+            "Id": "Disk.Virtual.1:RAID.Integrated.1-1",
+            "Identifiers": [],
+            "Links": {
+              "Drives": [
+                null
+              ],
+              "Drives@odata.count": 1
+            },
+            "Name": "GenericR0_1",
+            "Operations": [],
+            "OptimumIOSizeBytes": 262144,
+            "Status": {
+              "Health": "OK",
+              "HealthRollup": "OK",
+              "State": "Enabled"
+            },
+            "VolumeType": "NonRedundant"
+          },
+          "SupportedApplyTimes": [
+            "Immediate",
+            "OnReset",
+            "AtMaintenanceWindowStart",
+            "InMaintenanceWindowOnReset"
+          ]
+        },
+        "@context": "/redfish/v1/$metadata#Volume.Volume",
+        "@data_type": "#Volume.v1_0_3.Volume",
+        "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.1:RAID.Integrated.1-1",
+        "Actions": {
+          "#Volume.CheckConsistency": {
+            "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.1:RAID.Integrated.1-1/Actions/Volume.CheckConsistency"
+          },
+          "#Volume.Initialize": {
+            "InitializeType@Redfish.AllowableValues": [
+              "Fast",
+              "Slow"
+            ],
+            "target": "/redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.1:RAID.Integrated.1-1/Actions/Volume.Initialize"
+          }
+        },
+        "BlockSizeBytes": 512,
+        "CapacityBytes": 959656755200,
+        "Description": "GenericR0_1",
+        "Encrypted": false,
+        "EncryptionTypes": [
+          "NativeDriveEncryption"
+        ],
+        "Id": "Disk.Virtual.1:RAID.Integrated.1-1",
+        "Identifiers": [],
+        "Links": {
+          "Drives": [
+            {
+              "@data_type": "See Referenced ID",
+              "@id": "/redfish/v1/Systems/System.Embedded.1/Storage/Drives/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1"
+            }
+          ],
+          "Drives@odata.count": 1
+        },
+        "Name": "GenericR0_1",
+        "Oem": {
+          "Dell": {
+            "DellVirtualDisk": {
+              "@context": "/redfish/v1/$metadata#DellVirtualDisk.DellVirtualDisk",
+              "@data_type": "#DellVirtualDisk.v1_0_0.DellVirtualDisk",
+              "@id": "/redfish/v1/Dell/Systems/System.Embedded.1/Storage/Volumes/DellVirtualDisk/Disk.Virtual.1:RAID.Integrated.1-1",
+              "BusProtocol": "SAS",
+              "Cachecade": "NonCachecadeVD",
+              "Description": "An instance of DellVirtualDisk will have data specific to the Virtual Disks in the system.",
+              "DiskCachePolicy": "Enabled",
+              "Id": "Disk.Virtual.1:RAID.Integrated.1-1",
+              "LockStatus": "Unlocked",
+              "MediaType": "SolidStateDrive",
+              "Name": "DellVirtualDisk",
+              "ReadCachePolicy": "NoReadAhead",
+              "SpanDepth": 1,
+              "SpanLength": 1,
+              "VirtualDiskTargetID": 1,
+              "WriteCachePolicy": "WriteThrough"
+            }
+          }
+        },
+        "Operations": [],
+        "OptimumIOSizeBytes": 262144,
+        "Status": {
+          "Health": "OK",
+          "HealthRollup": "OK",
+          "State": "Enabled"
+        },
+        "VolumeType": "NonRedundant"
+      }
+    ],
+    "Members@odata.count": 2,
+    "Name": "Volume Collection"
+  }
+}
