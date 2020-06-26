@@ -22,3 +22,5 @@ show_disks:
 show_logical:
   prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0/LogicalDrives
   recurse: True
+nagios:
+  prefix: /redfish/v1/Systems/1/SmartStorage/ArrayControllers/0

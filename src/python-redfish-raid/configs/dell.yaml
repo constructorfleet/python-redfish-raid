@@ -129,3 +129,23 @@ show_logical:
   report: |
     {allvolumes}
   recurse: 4
+nagios:
+  prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
+  recurse: 3
+  json_filters:
+    - key: drive_health
+      jq: Oem.Dell.DellController.PCISlot
+    - key: patrolread
+      jq: Oem.Dell.DellController.PatrolReadState
+    - key: firmware_version
+      jq: Oem.Dell.DellController.ControllerFirmwareVersion
+    - key: controller_model
+      jq: StorageControllers[0].Model
+    - key: memsize
+      jq: Oem.Dell.DellController.CacheSizeInMB
+  report: |
+    Adapter #: {pcislot}
+    Adapter Name: {controller_model}
+    Firmware Build Version: {firmware_version}
+    Memory Size: {memsize}
+    Patrol Read State: {patrolread}

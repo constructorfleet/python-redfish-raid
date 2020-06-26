@@ -1,19 +1,7 @@
-from string import Formatter
 import json
-import jmespath
 
 from framework.usecases.UseCase import UseCase
-
-
-class KWArgFormatter(Formatter):
-    def get_value(self, key, args, kwargs):
-        if isinstance(key, str):
-            try:
-                return kwargs[key]
-            except KeyError:
-                return key
-        else:
-            return Formatter.get_value(key, args, kwargs)
+from utils.FormattingUtil import KWArgFormatter
 
 
 class ShowReportUseCase(UseCase):
@@ -29,4 +17,5 @@ class ShowReportUseCase(UseCase):
         """Show reports from service data."""
         if not self._report_format:
             return json.dumps(service_data, indent=2, sort_keys=True)
-        return self._keyword_formatter.format(self._report_format, **service_data).replace(r'\t', '  ')
+        return self._keyword_formatter.format(
+            self._report_format, **service_data).replace(r'\t', '  ')
