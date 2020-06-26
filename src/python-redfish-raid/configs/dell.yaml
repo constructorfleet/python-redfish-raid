@@ -133,14 +133,17 @@ nagios:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
   recurse: 3
   json_filters:
+    - key: num_drives
+      jq: >
+        length(Drives[*])
     - key: healthy_drives
       jq: >
         Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description}
       format: |
         \t\t{DiskHealth}: {Description}
     - key: num_healthy_drives
-        jq: >
-          length(Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description})
+      jq: >
+        length(Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description})
     - key: unhealthy_drives
       jq: >
         Drives[?"@".Status.Health!=`OK`].{DiskHealth: Status.Health, Description: Description}
@@ -150,7 +153,8 @@ nagios:
       jq: >
         length(Drives[?"@".Status.Health!=`OK`].{DiskHealth: Status.Health, Description: Description}
   report: |
-    {num_healthy_drives} Healthy Drives:
+    {num_drives} Total Drives:
+      {num_healthy_drives} Healthy Drives:
     {healthy_drives}
-    {num_unhealthy_drives} Unhealthy Drives:
+      {num_unhealthy_drives} Unhealthy Drives:
     {unhealthy_drives}
