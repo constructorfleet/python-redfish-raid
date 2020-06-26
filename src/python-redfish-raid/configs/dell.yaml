@@ -133,19 +133,24 @@ nagios:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
   recurse: 3
   json_filters:
-    - key: drive_health
-      jq: Oem.Dell.DellController.PCISlot
-    - key: patrolread
-      jq: Oem.Dell.DellController.PatrolReadState
-    - key: firmware_version
-      jq: Oem.Dell.DellController.ControllerFirmwareVersion
-    - key: controller_model
-      jq: StorageControllers[0].Model
-    - key: memsize
-      jq: Oem.Dell.DellController.CacheSizeInMB
+    - key: healthy_drives
+      jq: >
+        Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description}
+      format: |
+        \t\t{DiskHealth}: {Description}
+    - key: num_healthy_drives
+        jq: >
+          length(Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description})
+    - key: unhealthy_drives
+      jq: >
+        Drives[?"@".Status.Health!=`OK`].{DiskHealth: Status.Health, Description: Description}
+      format: |
+        \t\t{DiskHealth}: {Description}
+    - key: num_unhealthy_drives
+      jq: >
+        length(Drives[?"@".Status.Health!=`OK`].{DiskHealth: Status.Health, Description: Description}
   report: |
-    Adapter #: {pcislot}
-    Adapter Name: {controller_model}
-    Firmware Build Version: {firmware_version}
-    Memory Size: {memsize}
-    Patrol Read State: {patrolread}
+    {num_healthy_drives} Healthy Drives:
+    {healthy_drives}
+    {num_unhealthy_drives} Unhealthy Drives:
+    {unhealthy_drives}
