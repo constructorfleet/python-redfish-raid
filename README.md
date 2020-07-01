@@ -31,16 +31,85 @@ Configuration files are YAML based and can be specified at run time using the `-
 
 #### Structure:
 
-```
+```yaml
 $COMMAND: Command you wish to run  
   prefix: Starting API Endpoint for the command    
   recurse: Use False to disable API recursion, True to enable full API recursion or an integer to specify the maximum recursion depth  
   json_filters: List of JMESPath strings to filter the JSON output  
     key: Resulting JSON key  
     jq: JMESPath Query string (See http://jmespath.org/ for syntax and information)
-  report: Report with placeholders for the result data (Replacers are of the format `{key_name)`
+    format: Resulting text output format for JMESPath queries
+    sub_formats: Resulting output format for specific JMESPath JSON key (i.e. physical drives which are members of a logial drive)
+  report: Report with placeholders for the formatted result data (Replacers are of the format `{key_name)`
 ```
-  
+##### Example YAML configuration
+```yaml
+show_logical:
+  prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
+  recurse: 4
+
+  json_filters:
+
+    - key: allvolumes
+      jq: >
+        Members[*].{
+        Name: Oem.Dell.DellVirtualDisk.Id,
+        VirtualDiskTargetID: Oem.Dell.DellVirtualDisk.VirtualDiskTargetID,
+        DiskCachePolicy: Oem.Dell.DellVirtualDisk.DiskCachePolicy,
+        ReadCachePolicy: Oem.Dell.DellVirtualDisk.ReadCachePolicy,
+        WriteCachePolicy: Oem.Dell.DellVirtualDisk.WriteCachePolicy,
+        SpanDepth: Oem.Dell.DellVirtualDisk.SpanDepth,
+        SpanLength: Oem.Dell.DellVirtualDisk.SpanLength,
+        Status: Status.Health
+        MemberDisks: "@Redfish.Settings".SettingsObject.Links.Drives[*].{ BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }
+        }
+
+      format: |
+        [{Name}]
+          Virtual Drive: {VirtualDiskTargetID}
+          Cache Policy: {DiskCachePolicy}
+          Span Depth: {SpanDepth}
+          Span Length: {SpanLength}
+
+          Status: {Status}
+          Members:
+        {MemberDisks}
+
+      sub_formats:
+        MemberDisks: |
+          \t\t[{Name}] {CapacityBytes} {Manufacturer} {Model} {SerialNumber}
+
+  report: |
+    {allvolumes}
+```
+
+##### Command output from above example
+```bash
+#> python3 __main__.py --host 'https://10.253.20.221' --account 'root' --password <password> --showlogical --system dell
+
+[Disk.Virtual.0:RAID.Integrated.1-1]
+  Virtual Drive: 0
+  Cache Policy: Default
+  Span Depth: 1
+  Span Length: 2
+
+  Status: OK
+  Members:
+    [Solid State Disk 0:1:0] 119.5 GB INTEL SSDSC2BB120G7R PHDV721600AY150MGN
+    [Solid State Disk 0:1:1] 119.5 GB INTEL SSDSC2BB120G7R PHDV7215088V150MGN
+
+
+[Disk.Virtual.1:RAID.Integrated.1-1]
+  Virtual Drive: 1
+  Cache Policy: Enabled
+  Span Depth: 1
+  Span Length: 1
+
+  Status: OK
+  Members:
+    [Solid State Disk 0:1:6] 959.7 GB TOSHIBA PX05SVB096Y 67L0A184TEZE
+
+```
 ## Custom API clients
 
 For extensibility, custom api clients can be added as needed. To add a new API client, create a client in `python-redfish-raid/srrc/data/client` following the existing `RedfishClient.py` client implementation.  
