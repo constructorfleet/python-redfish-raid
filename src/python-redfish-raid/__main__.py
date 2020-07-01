@@ -62,7 +62,7 @@ def main():
     _command_args(parser)
 
     args = parser.parse_args()
-    print(str(args))
+    #print(str(args))
 
     results = get_run_application_usecase(args.api_type,
                                           args.login_host,
