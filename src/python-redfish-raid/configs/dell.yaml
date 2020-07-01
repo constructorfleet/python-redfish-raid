@@ -35,9 +35,25 @@ show_pr:
 show_cc:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/Volumes/Disk.Virtual.1:RAID.Integrated.1-1/Actions
   recurse: 1
-show_bbu:
-  prefix: TODO
 
+show_bbu:
+  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/DellSensor/iDRAC.Embedded.1%23PERC1ROMBBattery
+  recurse: 0
+  json_filters:
+    - key: name
+      jq: "ElementName"
+    - key: enabled_state
+      jq: "EnabledState"
+    - key: current_state
+      jq: "CurrentState"
+    - key: health_state
+      jq: "HealthState"
+
+  report: |
+
+      Battery: {name}
+      State: {enabled_state}, {current_state}
+      Health: {health_state}
 
 show_enc:
 #  prefix: /redfish/v1/Dell/Chassis/System.Embedded.1/DellEnclosureCollection
@@ -74,27 +90,57 @@ show_enc:
 
 show_disks:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
-#  prefix: /redfish/v1/Dell/Systems/System.Embedded.1/Storage/Drives/DellPhysicalDisk/Disk.Bay.6:Enclosure.Internal.0-1:RAID.Integrated.1-1
+  recurse: 2
   json_filters:
     - key: alldrives
-      jq: "Drives[*].{BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }"
+      jq: >
+        Drives[*].{
+        BlockSizeBytes: BlockSizeBytes,
+        Revision: Revision,
+        CapableSpeedGbs: CapableSpeedGbs,
+        Manufacturer: Manufacturer,
+        SerialNumber: SerialNumber,
+        CapacityBytes: naturalsize(CapacityBytes),
+        Model: Model,
+        Name: Name,
+        FailurePredicted: FailurePredicted
+        LifePercent: PredictedMediaLifeLeftPercent
+        OnlineStatus: Oem.Dell.DellPhysicalDisk.RaidStatus
+        }
       format: |
-       [{Name}]    ? ? ? ? {CapacityBytes} {Manufacturer} {SerialNumber} {Revision} : ?Configured(), Spun ?(UP/DOW)
-    - key: drivecount
-      jq: "\"Drives@odata.count\""
-    - key: failingcount
-      jq: "length(Drives[?(Status.Health != `OK`)])"
+       [{Name}]  PFail: {FailurePredicted}  PLife: {LifePercent}%  Capacity: {CapacityBytes} {Manufacturer} {Model} SN: {SerialNumber} Rev: {Revision}  {OnlineStatus}
+    - key: num_drives
+      jq: >
+        length(Drives[*])
+    - key: healthy_drives
+      jq: >
+        Drives[?(Status.Health == `OK`)].{DiskHealth: Status.Health, Description: Description}
+      format: |
+        \t\t{DiskHealth}: {Description}
+    - key: num_healthy_drives
+      jq: >
+        length(Drives[?(Status.Health == `OK`)].{DiskHealth: Status.Health, Description: Description})
+    - key: unhealthy_drives
+      jq: >
+        Drives[?(Status.Health != `OK`)].{DiskHealth: Status.Health, Description: Description}
+      format: |
+        \t\t{DiskHealth}: {Description}
+    - key: num_unhealthy_drives
+      jq: >
+        length(Drives[?(Status.Health != `OK`)].{DiskHealth: Status.Health, Description: Description})
+
   report: |
 
-    All Drives:
+    Total Drives: {num_drives}
+
     {alldrives}
 
-    There are {drivecount} drives:
+      {num_healthy_drives} Healthy Drives:
+    {healthy_drives}
 
-    Failed or Rebuilding Disks:
-    There are {failingcount} failing drives out of {drivecount}
+      {num_unhealthy_drives} Unhealthy Drives:
+    {unhealthy_drives}
 
-  recurse: 1
 show_logical:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1/Volumes
   json_filters:
@@ -109,11 +155,22 @@ show_logical:
         SpanDepth: Oem.Dell.DellVirtualDisk.SpanDepth,
         SpanLength: Oem.Dell.DellVirtualDisk.SpanLength,
         Status: Status.Health
-        MemberDisks: "@Redfish.Settings".SettingsObject.Links.Drives[*].{ BlockSizeBytes: BlockSizeBytes, Revision: Revision, CapableSpeedGbs: CapableSpeedGbs, Manufacturer: Manufacturer, SerialNumber: SerialNumber, CapacityBytes: naturalsize(CapacityBytes), Model: Model, Name: Name }
+        MemberDisks: "@Redfish.Settings".SettingsObject.Links.Drives[*].{
+        BlockSizeBytes: BlockSizeBytes,
+        Revision: Revision,
+        CapableSpeedGbs: CapableSpeedGbs,
+        Manufacturer: Manufacturer,
+        SerialNumber: SerialNumber,
+        CapacityBytes: naturalsize(CapacityBytes),
+        Model: Model,
+        Name: Name,
+        FailurePredicted: FailurePredicted,
+        LifePercent: PredictedMediaLifeLeftPercent,
+        OnlineStatus: Oem.Dell.DellPhysicalDisk.RaidStatus}
         }
       sub_formats:
         MemberDisks: |
-          \t\t[{Name}] {CapacityBytes} {Manufacturer} {Model} {SerialNumber}
+          \t\t[{Name}]  PFail: {FailurePredicted}  PLife: {LifePercent}%  Capacity: {CapacityBytes} {Manufacturer} {Model} SN: {SerialNumber} Rev: {Revision}  {OnlineStatus}
 
       format: |
 
@@ -124,37 +181,24 @@ show_logical:
           Span Length: {SpanLength}
 
           Status: {Status}
+
           Members:
         {MemberDisks}
   report: |
     {allvolumes}
   recurse: 4
+
 nagios:
   prefix: /redfish/v1/Systems/System.Embedded.1/Storage/RAID.Integrated.1-1
-  recurse: 3
+  recurse: 1
   json_filters:
-    - key: num_drives
+    - key: health_rollup
       jq: >
-        length(Drives[*])
-    - key: healthy_drives
-      jq: >
-        Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description}
+        StorageControllers[*].{
+        HealthRollup: Status.HealthRollup
+        }
       format: |
-        \t\t{DiskHealth}: {Description}
-    - key: num_healthy_drives
-      jq: >
-        length(Drives[?"@".Status.Health==`OK`].{DiskHealth: Status.Health, Description: Description})
-    - key: unhealthy_drives
-      jq: >
-        Drives[?"@".Status.Health!=`OK`].{DiskHealth: Status.Health, Description: Description}
-      format: |
-        \t\t{DiskHealth}: {Description}
-    - key: num_unhealthy_drives
-      jq: >
-        length(Drives[?"@".Status.Health!=`OK`].{DiskHealth: Status.Health, Description: Description}
+        Storage Controller Health Rollup Status: {HealthRollup}
   report: |
-    {num_drives} Total Drives:
-      {num_healthy_drives} Healthy Drives:
-    {healthy_drives}
-      {num_unhealthy_drives} Unhealthy Drives:
-    {unhealthy_drives}
+
+    {health_rollup}
