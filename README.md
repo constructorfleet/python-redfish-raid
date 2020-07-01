@@ -1,6 +1,7 @@
 # python-redfish-raid
 Redfish for RAID
 
+
 ## Running the Application
 
 `python3 -m main.py [args]`
@@ -110,6 +111,32 @@ show_logical:
     [Solid State Disk 0:1:6] 959.7 GB TOSHIBA PX05SVB096Y 67L0A184TEZE
 
 ```
+
+## Application Environment Setup (python virtual environment)
+```shell script
+❯ cd python-redfish-raid_customerfiles
+❯ python3 -m venv venv
+❯ source venv/bin/activate
+❯ pip install -r requirements.txt
+❯ cd python-redfish-raid
+❯ python __main__.py --host 'https://10.253.20.221' --account 'root' --password <password> --showd --system dell
+
+Total Drives: 3
+
+[Solid State Disk 0:1:0]  PFail: False  PLife: 100%  Capacity: 119.5 GB INTEL SSDSC2BB120G7R SN: PHDV721600AY150MGN Rev: N201DL42  Online
+[Solid State Disk 0:1:1]  PFail: False  PLife: 100%  Capacity: 119.5 GB INTEL SSDSC2BB120G7R SN: PHDV7215088V150MGN Rev: N201DL42  Online
+[Solid State Disk 0:1:6]  PFail: False  PLife: 100%  Capacity: 959.7 GB TOSHIBA PX05SVB096Y SN: 67L0A184TEZE Rev: AS03  Online
+
+
+  3 Healthy Drives:
+    OK: Solid State Disk 0:1:0
+    OK: Solid State Disk 0:1:1
+    OK: Solid State Disk 0:1:6
+
+
+  0 Unhealthy Drives:
+```
+
 ## Custom API clients
 
 For extensibility, custom api clients can be added as needed. To add a new API client, create a client in `python-redfish-raid/srrc/data/client` following the existing `RedfishClient.py` client implementation.  
@@ -127,3 +154,4 @@ This method disconnects the client to make sure sessions are closed responsibly.
 ### Extending the API interface
 
 If, For example, your client needs to perform `POST` or `PUT` - you should add the appropriate methods to `python-redfish-raid/framework/client/Client.py` base API client class, and then implement the appropriate method in your custom API client. You may need to add the invocation of these methods to the InvokeApiUseCase as needed.
+
